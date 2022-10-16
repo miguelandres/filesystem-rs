@@ -1,102 +1,102 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src&#x2F;lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../storage.js"></script><script src="../../crates.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../filesystem/index.html'><div class='logo-container rust-logo'><img src='../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
-<span id="2">  2</span>
-<span id="3">  3</span>
-<span id="4">  4</span>
-<span id="5">  5</span>
-<span id="6">  6</span>
-<span id="7">  7</span>
-<span id="8">  8</span>
-<span id="9">  9</span>
-<span id="10"> 10</span>
-<span id="11"> 11</span>
-<span id="12"> 12</span>
-<span id="13"> 13</span>
-<span id="14"> 14</span>
-<span id="15"> 15</span>
-<span id="16"> 16</span>
-<span id="17"> 17</span>
-<span id="18"> 18</span>
-<span id="19"> 19</span>
-<span id="20"> 20</span>
-<span id="21"> 21</span>
-<span id="22"> 22</span>
-<span id="23"> 23</span>
-<span id="24"> 24</span>
-<span id="25"> 25</span>
-<span id="26"> 26</span>
-<span id="27"> 27</span>
-<span id="28"> 28</span>
-<span id="29"> 29</span>
-<span id="30"> 30</span>
-<span id="31"> 31</span>
-<span id="32"> 32</span>
-<span id="33"> 33</span>
-<span id="34"> 34</span>
-<span id="35"> 35</span>
-<span id="36"> 36</span>
-<span id="37"> 37</span>
-<span id="38"> 38</span>
-<span id="39"> 39</span>
-<span id="40"> 40</span>
-<span id="41"> 41</span>
-<span id="42"> 42</span>
-<span id="43"> 43</span>
-<span id="44"> 44</span>
-<span id="45"> 45</span>
-<span id="46"> 46</span>
-<span id="47"> 47</span>
-<span id="48"> 48</span>
-<span id="49"> 49</span>
-<span id="50"> 50</span>
-<span id="51"> 51</span>
-<span id="52"> 52</span>
-<span id="53"> 53</span>
-<span id="54"> 54</span>
-<span id="55"> 55</span>
-<span id="56"> 56</span>
-<span id="57"> 57</span>
-<span id="58"> 58</span>
-<span id="59"> 59</span>
-<span id="60"> 60</span>
-<span id="61"> 61</span>
-<span id="62"> 62</span>
-<span id="63"> 63</span>
-<span id="64"> 64</span>
-<span id="65"> 65</span>
-<span id="66"> 66</span>
-<span id="67"> 67</span>
-<span id="68"> 68</span>
-<span id="69"> 69</span>
-<span id="70"> 70</span>
-<span id="71"> 71</span>
-<span id="72"> 72</span>
-<span id="73"> 73</span>
-<span id="74"> 74</span>
-<span id="75"> 75</span>
-<span id="76"> 76</span>
-<span id="77"> 77</span>
-<span id="78"> 78</span>
-<span id="79"> 79</span>
-<span id="80"> 80</span>
-<span id="81"> 81</span>
-<span id="82"> 82</span>
-<span id="83"> 83</span>
-<span id="84"> 84</span>
-<span id="85"> 85</span>
-<span id="86"> 86</span>
-<span id="87"> 87</span>
-<span id="88"> 88</span>
-<span id="89"> 89</span>
-<span id="90"> 90</span>
-<span id="91"> 91</span>
-<span id="92"> 92</span>
-<span id="93"> 93</span>
-<span id="94"> 94</span>
-<span id="95"> 95</span>
-<span id="96"> 96</span>
-<span id="97"> 97</span>
-<span id="98"> 98</span>
-<span id="99"> 99</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../normalize.css"><link rel="stylesheet" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../ayu.css" disabled><link rel="stylesheet" href="../../dark.css" disabled><link rel="stylesheet" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><a class="sidebar-logo" href="../../filesystem/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../filesystem/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
 <span id="100">100</span>
 <span id="101">101</span>
 <span id="102">102</span>
@@ -253,262 +253,260 @@
 <span id="253">253</span>
 <span id="254">254</span>
 <span id="255">255</span>
-</pre><pre class="rust"><code><span class="attribute">#![<span class="ident">feature</span>(<span class="ident">io_error_more</span>)]</span>
+</pre><pre class="rust"><code><span class="attribute">#![feature(io_error_more)]
 
-<span class="comment">// Copyright (c) 2017 Isobel Redelmeier</span>
-<span class="comment">// Copyright (c) 2021 Miguel Barreto</span>
-<span class="comment">//</span>
-<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span>
-<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
-<span class="comment">// in the Software without restriction, including without limitation the rights</span>
-<span class="comment">// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
-<span class="comment">// copies of the Software, and to permit persons to whom the Software is</span>
-<span class="comment">// furnished to do so, subject to the following conditions:</span>
-<span class="comment">//</span>
-<span class="comment">// The above copyright notice and this permission notice shall be included in all</span>
-<span class="comment">// copies or substantial portions of the Software.</span>
-<span class="comment">//</span>
-<span class="comment">// THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
-<span class="comment">// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
-<span class="comment">// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
-<span class="comment">// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
-<span class="comment">// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
-<span class="comment">// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span>
-<span class="comment">// SOFTWARE.</span>
+</span><span class="comment">// Copyright (c) 2017 Isobel Redelmeier
+// Copyright (c) 2021 Miguel Barreto
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the &quot;Software&quot;), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mock&quot;</span>, <span class="ident">test</span>))]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">pseudo</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;temp&quot;</span>)]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">rand</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;temp&quot;</span>)]</span>
-<span class="kw">extern</span> <span class="kw">crate</span> <span class="ident">tempdir</span>;
+</span><span class="attribute">#[cfg(any(feature = <span class="string">&quot;mock&quot;</span>, test))]
+</span><span class="kw">extern crate </span>pseudo;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;temp&quot;</span>)]
+</span><span class="kw">extern crate </span>rand;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;temp&quot;</span>)]
+</span><span class="kw">extern crate </span>tempdir;
 
-<span class="kw">use</span> <span class="ident">std::ffi::OsString</span>;
-<span class="kw">use</span> <span class="ident">std::io::Result</span>;
-<span class="kw">use</span> <span class="ident">std::path</span>::{<span class="ident">Path</span>, <span class="ident">PathBuf</span>};
+<span class="kw">use </span>std::ffi::OsString;
+<span class="kw">use </span>std::io::Result;
+<span class="kw">use </span>std::path::{Path, PathBuf};
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;fake&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">fake</span>::{<span class="ident">FakeFileSystem</span>, <span class="ident">FakeTempDir</span>};
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mock&quot;</span>, <span class="ident">test</span>))]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">mock</span>::{<span class="ident">FakeError</span>, <span class="ident">MockFileSystem</span>};
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">os::OsFileSystem</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;temp&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">os::OsTempDir</span>;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;fake&quot;</span>)]
+</span><span class="kw">pub use </span>fake::{FakeFileSystem, FakeTempDir};
+<span class="attribute">#[cfg(any(feature = <span class="string">&quot;mock&quot;</span>, test))]
+</span><span class="kw">pub use </span>mock::{FakeError, MockFileSystem};
+<span class="kw">pub use </span>os::OsFileSystem;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;temp&quot;</span>)]
+</span><span class="kw">pub use </span>os::OsTempDir;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;fake&quot;</span>)]</span>
-<span class="kw">mod</span> <span class="ident">fake</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">any</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;mock&quot;</span>, <span class="ident">test</span>))]</span>
-<span class="kw">mod</span> <span class="ident">mock</span>;
-<span class="kw">mod</span> <span class="ident">os</span>;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;fake&quot;</span>)]
+</span><span class="kw">mod </span>fake;
+<span class="attribute">#[cfg(any(feature = <span class="string">&quot;mock&quot;</span>, test))]
+</span><span class="kw">mod </span>mock;
+<span class="kw">mod </span>os;
 
-<span class="doccomment">/// Provides standard file system operations.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">FileSystem</span> {
-    <span class="kw">type</span> <span class="ident">DirEntry</span>: <span class="ident">DirEntry</span>;
-    <span class="kw">type</span> <span class="ident">ReadDir</span>: <span class="ident">ReadDir</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::DirEntry</span><span class="op">&gt;</span>;
+<span class="doccomment">/// Provides standard file system operations.
+</span><span class="kw">pub trait </span>FileSystem {
+    <span class="kw">type </span>DirEntry: DirEntry;
+    <span class="kw">type </span>ReadDir: ReadDir&lt;<span class="self">Self</span>::DirEntry&gt;;
 
-    <span class="doccomment">/// Returns the current working directory.</span>
-    <span class="doccomment">/// This is based on [`std::env::current_dir`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`std::env::current_dir`]: https://doc.rust-lang.org/std/env/fn.current_dir.html</span>
-    <span class="kw">fn</span> <span class="ident">current_dir</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span>;
-    <span class="doccomment">/// Updates the current working directory.</span>
-    <span class="doccomment">/// This is based on [`std::env::set_current_dir`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`std::env::set_current_dir`]: https://doc.rust-lang.org/std/env/fn.set_current_dir.html</span>
-    <span class="kw">fn</span> <span class="ident">set_current_dir</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
+    <span class="doccomment">/// Returns the current working directory.
+    /// This is based on [`std::env::current_dir`].
+    ///
+    /// [`std::env::current_dir`]: https://doc.rust-lang.org/std/env/fn.current_dir.html
+    </span><span class="kw">fn </span>current_dir(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;PathBuf&gt;;
+    <span class="doccomment">/// Updates the current working directory.
+    /// This is based on [`std::env::set_current_dir`].
+    ///
+    /// [`std::env::set_current_dir`]: https://doc.rust-lang.org/std/env/fn.set_current_dir.html
+    </span><span class="kw">fn </span>set_current_dir&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;;
 
-    <span class="doccomment">/// Determines whether the path exists and points to a directory.</span>
-    <span class="kw">fn</span> <span class="ident">is_dir</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>) -&gt; <span class="ident">bool</span>;
-    <span class="doccomment">/// Determines whether the path exists and points to a file.</span>
-    <span class="kw">fn</span> <span class="ident">is_file</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>) -&gt; <span class="ident">bool</span>;
+    <span class="doccomment">/// Determines whether the path exists and points to a directory.
+    </span><span class="kw">fn </span>is_dir&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P) -&gt; bool;
+    <span class="doccomment">/// Determines whether the path exists and points to a file.
+    </span><span class="kw">fn </span>is_file&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P) -&gt; bool;
 
-    <span class="doccomment">/// Creates a new directory.</span>
-    <span class="doccomment">/// This is based on [`std::fs::create_dir`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`std::fs::create_dir`]: https://doc.rust-lang.org/std/fs/fn.create_dir.html</span>
-    <span class="kw">fn</span> <span class="ident">create_dir</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
-    <span class="doccomment">/// Recursively creates a directory and any missing parents.</span>
-    <span class="doccomment">/// This is based on [`std::fs::create_dir`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`std::fs::create_dir_all`]: https://doc.rust-lang.org/std/fs/fn.create_dir_all.html</span>
-    <span class="kw">fn</span> <span class="ident">create_dir_all</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
-    <span class="doccomment">/// Removes an empty directory.</span>
-    <span class="doccomment">/// This is based on [`std::fs::remove_dir`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`std::fs::remove_dir`]: https://doc.rust-lang.org/std/fs/fn.remove_dir.html</span>
-    <span class="kw">fn</span> <span class="ident">remove_dir</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
-    <span class="doccomment">/// Removes a directory and any child files or directories.</span>
-    <span class="doccomment">/// This is based on [`std::fs::remove_dir_all`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`std::fs::remove_dir_all`]: https://doc.rust-lang.org/std/fs/fn.remove_dir_all.html</span>
-    <span class="kw">fn</span> <span class="ident">remove_dir_all</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
-    <span class="doccomment">/// Returns an iterator over the entries in a directory.</span>
-    <span class="doccomment">/// This is based on [`std::fs::read_dir`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`std::fs::read_dir`]: https://doc.rust-lang.org/std/fs/fn.read_dir.html</span>
-    <span class="kw">fn</span> <span class="ident">read_dir</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::ReadDir</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Creates a new directory.
+    /// This is based on [`std::fs::create_dir`].
+    ///
+    /// [`std::fs::create_dir`]: https://doc.rust-lang.org/std/fs/fn.create_dir.html
+    </span><span class="kw">fn </span>create_dir&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;;
+    <span class="doccomment">/// Recursively creates a directory and any missing parents.
+    /// This is based on [`std::fs::create_dir`].
+    ///
+    /// [`std::fs::create_dir_all`]: https://doc.rust-lang.org/std/fs/fn.create_dir_all.html
+    </span><span class="kw">fn </span>create_dir_all&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;;
+    <span class="doccomment">/// Removes an empty directory.
+    /// This is based on [`std::fs::remove_dir`].
+    ///
+    /// [`std::fs::remove_dir`]: https://doc.rust-lang.org/std/fs/fn.remove_dir.html
+    </span><span class="kw">fn </span>remove_dir&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;;
+    <span class="doccomment">/// Removes a directory and any child files or directories.
+    /// This is based on [`std::fs::remove_dir_all`].
+    ///
+    /// [`std::fs::remove_dir_all`]: https://doc.rust-lang.org/std/fs/fn.remove_dir_all.html
+    </span><span class="kw">fn </span>remove_dir_all&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;;
+    <span class="doccomment">/// Returns an iterator over the entries in a directory.
+    /// This is based on [`std::fs::read_dir`].
+    ///
+    /// [`std::fs::read_dir`]: https://doc.rust-lang.org/std/fs/fn.read_dir.html
+    </span><span class="kw">fn </span>read_dir&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::ReadDir&gt;;
 
-    <span class="doccomment">/// Writes `buf` to a new file at `path`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Errors</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * A file or directory already exists at `path`.</span>
-    <span class="doccomment">/// * The parent directory of `path` does not exist.</span>
-    <span class="doccomment">/// * Current user has insufficient permissions.</span>
-    <span class="kw">fn</span> <span class="ident">create_file</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">B</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>, <span class="ident">buf</span>: <span class="ident">B</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>,
-        <span class="ident">B</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>;
-    <span class="doccomment">/// Writes `buf` to a new or existing file at `buf`.</span>
-    <span class="doccomment">/// This will overwrite any contents that already exist.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Errors</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * The parent directory of `path` does not exist.</span>
-    <span class="doccomment">/// * Current user has insufficient permissions.</span>
-    <span class="kw">fn</span> <span class="ident">write_file</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">B</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>, <span class="ident">buf</span>: <span class="ident">B</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>,
-        <span class="ident">B</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>;
-    <span class="doccomment">/// Writes `buf` to an existing file at `buf`.</span>
-    <span class="doccomment">/// This will overwrite any contents that already exist.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Errors</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * No file `file` does not exist.</span>
-    <span class="doccomment">/// * The node at `file` is a directory.</span>
-    <span class="doccomment">/// * Current user has insufficient permissions.</span>
-    <span class="kw">fn</span> <span class="ident">overwrite_file</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">B</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>, <span class="ident">buf</span>: <span class="ident">B</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>,
-        <span class="ident">B</span>: <span class="ident">AsRef</span><span class="op">&lt;</span>[<span class="ident">u8</span>]<span class="op">&gt;</span>;
-    <span class="doccomment">/// Returns the contents of `path`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Errors</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `path` does not exist.</span>
-    <span class="doccomment">/// * `path` is a directory.</span>
-    <span class="doccomment">/// * Current user has insufficient permissions.</span>
-    <span class="kw">fn</span> <span class="ident">read_file</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>;
-    <span class="doccomment">/// Returns the contents of `path` as a string.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Errors</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `path` does not exist.</span>
-    <span class="doccomment">/// * `path` is a directory.</span>
-    <span class="doccomment">/// * Current user has insufficient permissions.</span>
-    <span class="doccomment">/// * Contents are not valid UTF-8</span>
-    <span class="kw">fn</span> <span class="ident">read_file_to_string</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span>;
-    <span class="doccomment">/// Writes the contents of `path` into the buffer. If successful, returns</span>
-    <span class="doccomment">/// the number of bytes that were read.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Errors</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `path` does not exist.</span>
-    <span class="doccomment">/// * `path` is a directory.</span>
-    <span class="doccomment">/// * Current user has insufficient permissions.</span>
-    <span class="kw">fn</span> <span class="ident">read_file_into</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">B</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>, <span class="ident">buf</span>: <span class="ident">B</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>,
-        <span class="ident">B</span>: <span class="ident">AsMut</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span>;
-    <span class="doccomment">/// Removes the file at `path`.</span>
-    <span class="doccomment">/// This is based on [`std::fs::remove_file`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`std::fs::remove_file`]: https://doc.rust-lang.org/std/fs/fn.remove_file.html</span>
-    <span class="kw">fn</span> <span class="ident">remove_file</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
-    <span class="doccomment">/// Copies the file at path `from` to the path `to`.</span>
-    <span class="doccomment">/// This is based on [`std::fs::copy`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`std::fs::copy`]: https://doc.rust-lang.org/std/fs/fn.copy.html</span>
-    <span class="kw">fn</span> <span class="ident">copy_file</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Q</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">from</span>: <span class="ident">P</span>, <span class="ident">to</span>: <span class="ident">Q</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>,
-        <span class="ident">Q</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Writes `buf` to a new file at `path`.
+    ///
+    /// # Errors
+    ///
+    /// * A file or directory already exists at `path`.
+    /// * The parent directory of `path` does not exist.
+    /// * Current user has insufficient permissions.
+    </span><span class="kw">fn </span>create_file&lt;P, B&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P, buf: B) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;
+    <span class="kw">where
+        </span>P: AsRef&lt;Path&gt;,
+        B: AsRef&lt;[u8]&gt;;
+    <span class="doccomment">/// Writes `buf` to a new or existing file at `buf`.
+    /// This will overwrite any contents that already exist.
+    ///
+    /// # Errors
+    ///
+    /// * The parent directory of `path` does not exist.
+    /// * Current user has insufficient permissions.
+    </span><span class="kw">fn </span>write_file&lt;P, B&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P, buf: B) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;
+    <span class="kw">where
+        </span>P: AsRef&lt;Path&gt;,
+        B: AsRef&lt;[u8]&gt;;
+    <span class="doccomment">/// Writes `buf` to an existing file at `buf`.
+    /// This will overwrite any contents that already exist.
+    ///
+    /// # Errors
+    ///
+    /// * No file `file` does not exist.
+    /// * The node at `file` is a directory.
+    /// * Current user has insufficient permissions.
+    </span><span class="kw">fn </span>overwrite_file&lt;P, B&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P, buf: B) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;
+    <span class="kw">where
+        </span>P: AsRef&lt;Path&gt;,
+        B: AsRef&lt;[u8]&gt;;
+    <span class="doccomment">/// Returns the contents of `path`.
+    ///
+    /// # Errors
+    ///
+    /// * `path` does not exist.
+    /// * `path` is a directory.
+    /// * Current user has insufficient permissions.
+    </span><span class="kw">fn </span>read_file&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;u8&gt;&gt;;
+    <span class="doccomment">/// Returns the contents of `path` as a string.
+    ///
+    /// # Errors
+    ///
+    /// * `path` does not exist.
+    /// * `path` is a directory.
+    /// * Current user has insufficient permissions.
+    /// * Contents are not valid UTF-8
+    </span><span class="kw">fn </span>read_file_to_string&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt;;
+    <span class="doccomment">/// Writes the contents of `path` into the buffer. If successful, returns
+    /// the number of bytes that were read.
+    ///
+    /// # Errors
+    ///
+    /// * `path` does not exist.
+    /// * `path` is a directory.
+    /// * Current user has insufficient permissions.
+    </span><span class="kw">fn </span>read_file_into&lt;P, B&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P, buf: B) -&gt; <span class="prelude-ty">Result</span>&lt;usize&gt;
+    <span class="kw">where
+        </span>P: AsRef&lt;Path&gt;,
+        B: AsMut&lt;Vec&lt;u8&gt;&gt;;
+    <span class="doccomment">/// Removes the file at `path`.
+    /// This is based on [`std::fs::remove_file`].
+    ///
+    /// [`std::fs::remove_file`]: https://doc.rust-lang.org/std/fs/fn.remove_file.html
+    </span><span class="kw">fn </span>remove_file&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;;
+    <span class="doccomment">/// Copies the file at path `from` to the path `to`.
+    /// This is based on [`std::fs::copy`].
+    ///
+    /// [`std::fs::copy`]: https://doc.rust-lang.org/std/fs/fn.copy.html
+    </span><span class="kw">fn </span>copy_file&lt;P, Q&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, from: P, to: Q) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;
+    <span class="kw">where
+        </span>P: AsRef&lt;Path&gt;,
+        Q: AsRef&lt;Path&gt;;
 
-    <span class="doccomment">/// Renames a file or directory.</span>
-    <span class="doccomment">/// If both `from` and `to` are files, `to` will be replaced.</span>
-    <span class="doccomment">/// Based on [`std::fs::rename`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`std::fs::rename`]: https://doc.rust-lang.org/std/fs/fn.rename.html</span>
-    <span class="kw">fn</span> <span class="ident">rename</span><span class="op">&lt;</span><span class="ident">P</span>, <span class="ident">Q</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">from</span>: <span class="ident">P</span>, <span class="ident">to</span>: <span class="ident">Q</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>
-    <span class="kw">where</span>
-        <span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>,
-        <span class="ident">Q</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Renames a file or directory.
+    /// If both `from` and `to` are files, `to` will be replaced.
+    /// Based on [`std::fs::rename`].
+    ///
+    /// [`std::fs::rename`]: https://doc.rust-lang.org/std/fs/fn.rename.html
+    </span><span class="kw">fn </span>rename&lt;P, Q&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, from: P, to: Q) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;
+    <span class="kw">where
+        </span>P: AsRef&lt;Path&gt;,
+        Q: AsRef&lt;Path&gt;;
 
-    <span class="doccomment">/// Returns `true` if `path` is a readonly file.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Errors</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `path` does not exist.</span>
-    <span class="doccomment">/// * Current user has insufficient permissions.</span>
-    <span class="kw">fn</span> <span class="ident">readonly</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span>;
-    <span class="doccomment">/// Sets or unsets the readonly flag of `path`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Errors</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `path` does not exist.</span>
-    <span class="doccomment">/// * Current user has insufficient permissions.</span>
-    <span class="kw">fn</span> <span class="ident">set_readonly</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>, <span class="ident">readonly</span>: <span class="ident">bool</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
+    <span class="doccomment">/// Returns `true` if `path` is a readonly file.
+    ///
+    /// # Errors
+    ///
+    /// * `path` does not exist.
+    /// * Current user has insufficient permissions.
+    </span><span class="kw">fn </span>readonly&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P) -&gt; <span class="prelude-ty">Result</span>&lt;bool&gt;;
+    <span class="doccomment">/// Sets or unsets the readonly flag of `path`.
+    ///
+    /// # Errors
+    ///
+    /// * `path` does not exist.
+    /// * Current user has insufficient permissions.
+    </span><span class="kw">fn </span>set_readonly&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P, readonly: bool) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;;
 
-    <span class="doccomment">/// Returns the length of the node at the path</span>
-    <span class="doccomment">/// or 0 if the node does not exist.</span>
-    <span class="kw">fn</span> <span class="ident">len</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>) -&gt; <span class="ident">u64</span>;
+    <span class="doccomment">/// Returns the length of the node at the path
+    /// or 0 if the node does not exist.
+    </span><span class="kw">fn </span>len&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P) -&gt; u64;
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">DirEntry</span> {
-    <span class="kw">fn</span> <span class="ident">file_name</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">OsString</span>;
-    <span class="kw">fn</span> <span class="ident">path</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">PathBuf</span>;
+<span class="kw">pub trait </span>DirEntry {
+    <span class="kw">fn </span>file_name(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; OsString;
+    <span class="kw">fn </span>path(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; PathBuf;
 }
 
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">ReadDir</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">DirEntry</span><span class="op">&gt;</span>: <span class="ident">Iterator</span><span class="op">&lt;</span><span class="ident">Item</span> <span class="op">=</span> <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">T</span><span class="op">&gt;</span><span class="op">&gt;</span> {}
+<span class="kw">pub trait </span>ReadDir&lt;T: DirEntry&gt;: Iterator&lt;Item = <span class="prelude-ty">Result</span>&lt;T&gt;&gt; {}
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">unix</span>)]</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">UnixFileSystem</span> {
-    <span class="doccomment">/// Returns the current mode bits of `path`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Errors</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `path` does not exist.</span>
-    <span class="doccomment">/// * Current user has insufficient permissions.</span>
-    <span class="kw">fn</span> <span class="ident">mode</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span>;
-    <span class="doccomment">/// Sets the mode bits of `path`.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Errors</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// * `path` does not exist.</span>
-    <span class="doccomment">/// * Current user has insufficient permissions.</span>
-    <span class="kw">fn</span> <span class="ident">set_mode</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="ident">P</span>, <span class="ident">mode</span>: <span class="ident">u32</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
-    <span class="doccomment">/// Creates a new symbolic link on the filesystem.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// The `dst` path will be a symbolic link pointing to the `src` path.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Based on [`std::os::unix::fs::symlink`].</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`std::os::unix::fs::symlink`]: https://doc.rust-lang.org/std/os/unix/fs/fn.symlink.html</span>
-    <span class="kw">fn</span> <span class="ident">symlink</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span>, <span class="ident">Q</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">src</span>: <span class="ident">P</span>, <span class="ident">dst</span>: <span class="ident">Q</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span>;
-    <span class="doccomment">/// Gets the source for a symlink.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// Based on [`std::fs::read_link`]</span>
-    <span class="kw">fn</span> <span class="ident">get_symlink_src</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">dst</span>: <span class="ident">P</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span>;
+<span class="attribute">#[cfg(unix)]
+</span><span class="kw">pub trait </span>UnixFileSystem {
+    <span class="doccomment">/// Returns the current mode bits of `path`.
+    ///
+    /// # Errors
+    ///
+    /// * `path` does not exist.
+    /// * Current user has insufficient permissions.
+    </span><span class="kw">fn </span>mode&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P) -&gt; <span class="prelude-ty">Result</span>&lt;u32&gt;;
+    <span class="doccomment">/// Sets the mode bits of `path`.
+    ///
+    /// # Errors
+    ///
+    /// * `path` does not exist.
+    /// * Current user has insufficient permissions.
+    </span><span class="kw">fn </span>set_mode&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, path: P, mode: u32) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;;
+    <span class="doccomment">/// Creates a new symbolic link on the filesystem.
+    ///
+    /// The `dst` path will be a symbolic link pointing to the `src` path.
+    ///
+    /// Based on [`std::os::unix::fs::symlink`].
+    ///
+    /// [`std::os::unix::fs::symlink`]: https://doc.rust-lang.org/std/os/unix/fs/fn.symlink.html
+    </span><span class="kw">fn </span>symlink&lt;P: AsRef&lt;Path&gt;, Q: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, src: P, dst: Q) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt;;
+    <span class="doccomment">/// Gets the source for a symlink.
+    ///
+    /// Based on [`std::fs::read_link`]
+    </span><span class="kw">fn </span>get_symlink_src&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, dst: P) -&gt; <span class="prelude-ty">Result</span>&lt;PathBuf&gt;;
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;temp&quot;</span>)]</span>
-<span class="doccomment">/// Tracks a temporary directory that will be deleted once the struct goes out of scope.</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">TempDir</span> {
-    <span class="doccomment">/// Returns the [`Path`] of the temporary directory.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// [`Path`]: https://doc.rust-lang.org/std/path/struct.Path.html</span>
-    <span class="kw">fn</span> <span class="ident">path</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span><span class="ident">Path</span>;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;temp&quot;</span>)]
+</span><span class="doccomment">/// Tracks a temporary directory that will be deleted once the struct goes out of scope.
+</span><span class="kw">pub trait </span>TempDir {
+    <span class="doccomment">/// Returns the [`Path`] of the temporary directory.
+    ///
+    /// [`Path`]: https://doc.rust-lang.org/std/path/struct.Path.html
+    </span><span class="kw">fn </span>path(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>Path;
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;temp&quot;</span>)]</span>
-<span class="kw">pub</span> <span class="kw">trait</span> <span class="ident">TempFileSystem</span> {
-    <span class="kw">type</span> <span class="ident">TempDir</span>: <span class="ident">TempDir</span>;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;temp&quot;</span>)]
+</span><span class="kw">pub trait </span>TempFileSystem {
+    <span class="kw">type </span>TempDir: TempDir;
 
-    <span class="doccomment">/// Creates a new temporary directory.</span>
-    <span class="kw">fn</span> <span class="ident">temp_dir</span><span class="op">&lt;</span><span class="ident">S</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">str</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">prefix</span>: <span class="ident">S</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident"><span class="self">Self</span>::TempDir</span><span class="op">&gt;</span>;
+    <span class="doccomment">/// Creates a new temporary directory.
+    </span><span class="kw">fn </span>temp_dir&lt;S: AsRef&lt;str&gt;&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, prefix: S) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>::TempDir&gt;;
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../" data-current-crate="filesystem" data-search-index-js="../../search-index.js" data-search-js="../../search.js"></div>
-    <script src="../../main.js"></script><script src="../../source-script.js"></script><script src="../../source-files.js"></script>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="filesystem" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.0-nightly (b8c35ca26 2022-10-15)" ></div></body></html>

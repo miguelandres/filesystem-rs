@@ -1,102 +1,102 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src&#x2F;fake&#x2F;registry.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>registry.rs - source</title><link rel="stylesheet" type="text/css" href="../../../normalize.css"><link rel="stylesheet" type="text/css" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../../light.css"  id="themeStyle"><link rel="stylesheet" type="text/css" href="../../../dark.css" disabled ><link rel="stylesheet" type="text/css" href="../../../ayu.css" disabled ><script id="default-settings" ></script><script src="../../../storage.js"></script><script src="../../../crates.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"><style type="text/css">#crate-search{background-image:url("../../../down-arrow.svg");}</style></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><div class="sidebar-menu" role="button">&#9776;</div><a href='../../../filesystem/index.html'><div class='logo-container rust-logo'><img src='../../../rust-logo.png' alt='logo'></div></a></nav><div class="theme-picker"><button id="theme-picker" aria-label="Pick another theme!" aria-haspopup="menu" title="themes"><img width="18" height="18" alt="Pick another theme!" src="../../../brush.svg"></button><div id="theme-choices" role="menu"></div></div><nav class="sub"><form class="search-form"><div class="search-container"><div><select id="crate-search"><option value="All crates">All crates</option></select><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"></div><button type="button" id="help-button" title="help">?</button><a id="settings-menu" href="../../../settings.html" title="settings"><img width="18" height="18" alt="Change settings" src="../../../wheel.svg"></a></div></form></nav><section id="main" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">  1</span>
-<span id="2">  2</span>
-<span id="3">  3</span>
-<span id="4">  4</span>
-<span id="5">  5</span>
-<span id="6">  6</span>
-<span id="7">  7</span>
-<span id="8">  8</span>
-<span id="9">  9</span>
-<span id="10"> 10</span>
-<span id="11"> 11</span>
-<span id="12"> 12</span>
-<span id="13"> 13</span>
-<span id="14"> 14</span>
-<span id="15"> 15</span>
-<span id="16"> 16</span>
-<span id="17"> 17</span>
-<span id="18"> 18</span>
-<span id="19"> 19</span>
-<span id="20"> 20</span>
-<span id="21"> 21</span>
-<span id="22"> 22</span>
-<span id="23"> 23</span>
-<span id="24"> 24</span>
-<span id="25"> 25</span>
-<span id="26"> 26</span>
-<span id="27"> 27</span>
-<span id="28"> 28</span>
-<span id="29"> 29</span>
-<span id="30"> 30</span>
-<span id="31"> 31</span>
-<span id="32"> 32</span>
-<span id="33"> 33</span>
-<span id="34"> 34</span>
-<span id="35"> 35</span>
-<span id="36"> 36</span>
-<span id="37"> 37</span>
-<span id="38"> 38</span>
-<span id="39"> 39</span>
-<span id="40"> 40</span>
-<span id="41"> 41</span>
-<span id="42"> 42</span>
-<span id="43"> 43</span>
-<span id="44"> 44</span>
-<span id="45"> 45</span>
-<span id="46"> 46</span>
-<span id="47"> 47</span>
-<span id="48"> 48</span>
-<span id="49"> 49</span>
-<span id="50"> 50</span>
-<span id="51"> 51</span>
-<span id="52"> 52</span>
-<span id="53"> 53</span>
-<span id="54"> 54</span>
-<span id="55"> 55</span>
-<span id="56"> 56</span>
-<span id="57"> 57</span>
-<span id="58"> 58</span>
-<span id="59"> 59</span>
-<span id="60"> 60</span>
-<span id="61"> 61</span>
-<span id="62"> 62</span>
-<span id="63"> 63</span>
-<span id="64"> 64</span>
-<span id="65"> 65</span>
-<span id="66"> 66</span>
-<span id="67"> 67</span>
-<span id="68"> 68</span>
-<span id="69"> 69</span>
-<span id="70"> 70</span>
-<span id="71"> 71</span>
-<span id="72"> 72</span>
-<span id="73"> 73</span>
-<span id="74"> 74</span>
-<span id="75"> 75</span>
-<span id="76"> 76</span>
-<span id="77"> 77</span>
-<span id="78"> 78</span>
-<span id="79"> 79</span>
-<span id="80"> 80</span>
-<span id="81"> 81</span>
-<span id="82"> 82</span>
-<span id="83"> 83</span>
-<span id="84"> 84</span>
-<span id="85"> 85</span>
-<span id="86"> 86</span>
-<span id="87"> 87</span>
-<span id="88"> 88</span>
-<span id="89"> 89</span>
-<span id="90"> 90</span>
-<span id="91"> 91</span>
-<span id="92"> 92</span>
-<span id="93"> 93</span>
-<span id="94"> 94</span>
-<span id="95"> 95</span>
-<span id="96"> 96</span>
-<span id="97"> 97</span>
-<span id="98"> 98</span>
-<span id="99"> 99</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/fake/registry.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>registry.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" href="../../../normalize.css"><link rel="stylesheet" href="../../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" href="../../../ayu.css" disabled><link rel="stylesheet" href="../../../dark.css" disabled><link rel="stylesheet" href="../../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../../storage.js"></script><script defer src="../../../source-script.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../main.js"></script><noscript><link rel="stylesheet" href="../../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"><a class="sidebar-logo" href="../../../filesystem/index.html"><div class="logo-container"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../../filesystem/index.html"><img class="rust-logo" src="../../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
+<span id="2">2</span>
+<span id="3">3</span>
+<span id="4">4</span>
+<span id="5">5</span>
+<span id="6">6</span>
+<span id="7">7</span>
+<span id="8">8</span>
+<span id="9">9</span>
+<span id="10">10</span>
+<span id="11">11</span>
+<span id="12">12</span>
+<span id="13">13</span>
+<span id="14">14</span>
+<span id="15">15</span>
+<span id="16">16</span>
+<span id="17">17</span>
+<span id="18">18</span>
+<span id="19">19</span>
+<span id="20">20</span>
+<span id="21">21</span>
+<span id="22">22</span>
+<span id="23">23</span>
+<span id="24">24</span>
+<span id="25">25</span>
+<span id="26">26</span>
+<span id="27">27</span>
+<span id="28">28</span>
+<span id="29">29</span>
+<span id="30">30</span>
+<span id="31">31</span>
+<span id="32">32</span>
+<span id="33">33</span>
+<span id="34">34</span>
+<span id="35">35</span>
+<span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
+<span id="44">44</span>
+<span id="45">45</span>
+<span id="46">46</span>
+<span id="47">47</span>
+<span id="48">48</span>
+<span id="49">49</span>
+<span id="50">50</span>
+<span id="51">51</span>
+<span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
+<span id="70">70</span>
+<span id="71">71</span>
+<span id="72">72</span>
+<span id="73">73</span>
+<span id="74">74</span>
+<span id="75">75</span>
+<span id="76">76</span>
+<span id="77">77</span>
+<span id="78">78</span>
+<span id="79">79</span>
+<span id="80">80</span>
+<span id="81">81</span>
+<span id="82">82</span>
+<span id="83">83</span>
+<span id="84">84</span>
+<span id="85">85</span>
+<span id="86">86</span>
+<span id="87">87</span>
+<span id="88">88</span>
+<span id="89">89</span>
+<span id="90">90</span>
+<span id="91">91</span>
+<span id="92">92</span>
+<span id="93">93</span>
+<span id="94">94</span>
+<span id="95">95</span>
+<span id="96">96</span>
+<span id="97">97</span>
+<span id="98">98</span>
+<span id="99">99</span>
 <span id="100">100</span>
 <span id="101">101</span>
 <span id="102">102</span>
@@ -672,681 +672,691 @@
 <span id="672">672</span>
 <span id="673">673</span>
 <span id="674">674</span>
-</pre><pre class="rust"><code><span class="comment">// Copyright (c) 2017 Isobel Redelmeier</span>
-<span class="comment">// Copyright (c) 2021 Miguel Barreto</span>
-<span class="comment">//</span>
-<span class="comment">// Permission is hereby granted, free of charge, to any person obtaining a copy</span>
-<span class="comment">// of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
-<span class="comment">// in the Software without restriction, including without limitation the rights</span>
-<span class="comment">// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
-<span class="comment">// copies of the Software, and to permit persons to whom the Software is</span>
-<span class="comment">// furnished to do so, subject to the following conditions:</span>
-<span class="comment">//</span>
-<span class="comment">// The above copyright notice and this permission notice shall be included in all</span>
-<span class="comment">// copies or substantial portions of the Software.</span>
-<span class="comment">//</span>
-<span class="comment">// THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
-<span class="comment">// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
-<span class="comment">// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
-<span class="comment">// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
-<span class="comment">// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
-<span class="comment">// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE</span>
-<span class="comment">// SOFTWARE.</span>
+<span id="675">675</span>
+<span id="676">676</span>
+<span id="677">677</span>
+<span id="678">678</span>
+<span id="679">679</span>
+<span id="680">680</span>
+</pre><pre class="rust"><code><span class="comment">// Copyright (c) 2017 Isobel Redelmeier
+// Copyright (c) 2021 Miguel Barreto
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the &quot;Software&quot;), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
 
-<span class="kw">use</span> <span class="ident">std::collections</span>::{<span class="ident">HashMap</span>, <span class="ident">HashSet</span>};
-<span class="kw">use</span> <span class="ident">std::io</span>::{<span class="ident">Error</span>, <span class="ident">ErrorKind</span>, <span class="prelude-ty">Result</span>};
-<span class="kw">use</span> <span class="ident">std::path</span>::{<span class="ident">Component</span>, <span class="ident">Path</span>, <span class="ident">PathBuf</span>};
+</span><span class="kw">use </span>std::collections::{HashMap, HashSet};
+<span class="kw">use </span>std::io::{Error, ErrorKind, <span class="prelude-ty">Result</span>};
+<span class="kw">use </span>std::path::{Component, Path, PathBuf};
 
-<span class="kw">use</span> <span class="ident"><span class="kw">super</span>::node</span>::{<span class="ident">Dir</span>, <span class="ident">File</span>, <span class="ident">Node</span>, <span class="ident">Symlink</span>};
+<span class="kw">use </span><span class="kw">super</span>::node::{Dir, File, Node, Symlink};
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Default</span>)]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Registry</span> {
-    <span class="ident">cwd</span>: <span class="ident">PathBuf</span>,
-    <span class="ident">files</span>: <span class="ident">HashMap</span><span class="op">&lt;</span><span class="ident">PathBuf</span>, <span class="ident">Node</span><span class="op">&gt;</span>,
+<span class="attribute">#[derive(Debug, Clone)]
+</span><span class="kw">pub struct </span>Registry {
+    cwd: PathBuf,
+    files: HashMap&lt;PathBuf, Node&gt;,
 }
 
-<span class="kw">impl</span> <span class="ident">Registry</span> {
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="self">Self</span> {
-        <span class="kw">let</span> <span class="ident">cwd</span> <span class="op">=</span> <span class="ident">PathBuf::from</span>(<span class="string">&quot;/&quot;</span>);
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">files</span> <span class="op">=</span> <span class="ident">HashMap::new</span>();
+<span class="kw">impl </span>Default <span class="kw">for </span>Registry {
+    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+        Registry::new()
+    }
+}
 
-        <span class="ident">files</span>.<span class="ident">insert</span>(<span class="ident">cwd</span>.<span class="ident">clone</span>(), <span class="ident">Node::Dir</span>(<span class="ident">Dir::new</span>()));
+<span class="kw">impl </span>Registry {
+    <span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>cwd = PathBuf::from(<span class="string">&quot;/&quot;</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>files = HashMap::new();
 
-        <span class="ident">Registry</span> { <span class="ident">cwd</span>, <span class="ident">files</span> }
+        files.insert(cwd.clone(), Node::Dir(Dir::new()));
+
+        Registry { cwd, files }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">current_dir</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">get_dir</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">cwd</span>).<span class="ident">map</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">cwd</span>.<span class="ident">clone</span>())
+    <span class="kw">pub fn </span>current_dir(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;PathBuf&gt; {
+        <span class="self">self</span>.get_dir(<span class="kw-2">&amp;</span><span class="self">self</span>.cwd).map(|<span class="kw">_</span>| <span class="self">self</span>.cwd.clone())
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_current_dir</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">cwd</span>: <span class="ident">PathBuf</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">get_dir</span>(<span class="kw-2">&amp;</span><span class="ident">cwd</span>) {
+    <span class="kw">pub fn </span>set_current_dir(<span class="kw-2">&amp;mut </span><span class="self">self</span>, cwd: PathBuf) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">match </span><span class="self">self</span>.get_dir(<span class="kw-2">&amp;</span>cwd) {
             <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; {
-                <span class="self">self</span>.<span class="ident">cwd</span> <span class="op">=</span> <span class="ident">cwd</span>;
+                <span class="self">self</span>.cwd = cwd;
                 <span class="prelude-val">Ok</span>(())
             }
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+            <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Err</span>(e),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_dir</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="ident">bool</span> {
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="ident">path</span>, <span class="bool-val">true</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">resolved_path</span>) =&gt; <span class="self">self</span>
-                .<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">resolved_path</span>)
-                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="ident">node</span>.<span class="ident">is_dir</span>(<span class="kw-2">&amp;</span><span class="self">self</span>))
-                .<span class="ident">unwrap_or</span>(<span class="bool-val">false</span>),
+    <span class="kw">pub fn </span>is_dir(<span class="kw-2">&amp;</span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; bool {
+        <span class="kw">match </span><span class="self">self</span>.resolve_path(path, <span class="bool-val">true</span>) {
+            <span class="prelude-val">Ok</span>(resolved_path) =&gt; <span class="self">self
+                </span>.get(<span class="kw-2">&amp;</span>resolved_path)
+                .map(|node| node.is_dir(<span class="kw-2">&amp;</span><span class="self">self</span>))
+                .unwrap_or(<span class="bool-val">false</span>),
             <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">is_file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="ident">bool</span> {
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="ident">path</span>, <span class="bool-val">true</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">resolved_path</span>) =&gt; <span class="self">self</span>
-                .<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">resolved_path</span>)
-                .<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="ident">node</span>.<span class="ident">is_file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>))
-                .<span class="ident">unwrap_or</span>(<span class="bool-val">false</span>),
+    <span class="kw">pub fn </span>is_file(<span class="kw-2">&amp;</span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; bool {
+        <span class="kw">match </span><span class="self">self</span>.resolve_path(path, <span class="bool-val">true</span>) {
+            <span class="prelude-val">Ok</span>(resolved_path) =&gt; <span class="self">self
+                </span>.get(<span class="kw-2">&amp;</span>resolved_path)
+                .map(|node| node.is_file(<span class="kw-2">&amp;</span><span class="self">self</span>))
+                .unwrap_or(<span class="bool-val">false</span>),
             <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="bool-val">false</span>,
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_dir</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">insert</span>(<span class="ident">path</span>.<span class="ident">to_path_buf</span>(), <span class="ident">Node::Dir</span>(<span class="ident">Dir::new</span>()))
+    <span class="kw">pub fn </span>create_dir(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="self">self</span>.insert(path.to_path_buf(), Node::Dir(Dir::new()))
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_dir_all</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="comment">// Based on std::fs::DirBuilder::create_dir_all</span>
-        <span class="kw">if</span> <span class="ident">path</span> <span class="op">==</span> <span class="ident">Path::new</span>(<span class="string">&quot;&quot;</span>) {
-            <span class="kw">return</span> <span class="prelude-val">Ok</span>(());
+    <span class="kw">pub fn </span>create_dir_all(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="comment">// Based on std::fs::DirBuilder::create_dir_all
+        </span><span class="kw">if </span>path == Path::new(<span class="string">&quot;&quot;</span>) {
+            <span class="kw">return </span><span class="prelude-val">Ok</span>(());
         }
 
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">create_dir</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Ok</span>(()),
-            <span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="ident">e</span>) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">ErrorKind::NotFound</span> =&gt; {}
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_dir</span>(<span class="ident">path</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Ok</span>(()),
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+        <span class="kw">match </span><span class="self">self</span>.create_dir(path) {
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(()),
+            <span class="prelude-val">Err</span>(<span class="kw-2">ref </span>e) <span class="kw">if </span>e.kind() == ErrorKind::NotFound =&gt; {}
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) <span class="kw">if </span><span class="self">self</span>.is_dir(path) =&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(()),
+            <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(e),
         }
 
-        <span class="kw">match</span> <span class="ident">path</span>.<span class="ident">parent</span>() {
-            <span class="prelude-val">Some</span>(<span class="ident">p</span>) =&gt; <span class="self">self</span>.<span class="ident">create_dir_all</span>(<span class="ident">p</span>)<span class="question-mark">?</span>,
-            <span class="prelude-val">None</span> =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::Other</span>)),
+        <span class="kw">match </span>path.parent() {
+            <span class="prelude-val">Some</span>(p) =&gt; <span class="self">self</span>.create_dir_all(p)<span class="question-mark">?</span>,
+            <span class="prelude-val">None </span>=&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::Other)),
         }
 
-        <span class="self">self</span>.<span class="ident">create_dir_all</span>(<span class="ident">path</span>)
+        <span class="self">self</span>.create_dir_all(path)
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_dir</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="ident">path</span>, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">get</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">Node::Dir</span>(<span class="kw">_</span>)) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">descendants</span>(<span class="ident">path</span>).<span class="ident">is_empty</span>() =&gt; {}
-            <span class="prelude-val">Ok</span>(<span class="ident">Node::Dir</span>(<span class="kw">_</span>)) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::DirectoryNotEmpty</span>)),
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::NotADirectory</span>)),
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+    <span class="kw">pub fn </span>remove_dir(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">let </span>path = <span class="kw-2">&amp;</span><span class="self">self</span>.resolve_path(path, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
+        <span class="kw">match </span><span class="self">self</span>.get(path) {
+            <span class="prelude-val">Ok</span>(Node::Dir(<span class="kw">_</span>)) <span class="kw">if </span><span class="self">self</span>.descendants(path).is_empty() =&gt; {}
+            <span class="prelude-val">Ok</span>(Node::Dir(<span class="kw">_</span>)) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::DirectoryNotEmpty)),
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::NotADirectory)),
+            <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(e),
         };
 
-        <span class="self">self</span>.<span class="ident">remove</span>(<span class="ident">path</span>).<span class="ident">and</span>(<span class="prelude-val">Ok</span>(()))
+        <span class="self">self</span>.remove(path).and(<span class="prelude-val">Ok</span>(()))
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_dir_all</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="ident">path</span>, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">get_dir_mut</span>(<span class="ident">path</span>)<span class="question-mark">?</span>;
+    <span class="kw">pub fn </span>remove_dir_all(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">let </span>path = <span class="kw-2">&amp;</span><span class="self">self</span>.resolve_path(path, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.get_dir_mut(path)<span class="question-mark">?</span>;
 
-        <span class="kw">let</span> <span class="ident">descendants</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">descendants</span>(<span class="ident">path</span>);
-        <span class="kw">let</span> <span class="ident">all_readable</span> <span class="op">=</span> <span class="ident">descendants</span>.<span class="ident">iter</span>().<span class="ident">all</span>(<span class="op">|</span>(<span class="kw">_</span>, <span class="ident">mode</span>)<span class="op">|</span> <span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o444</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span>);
+        <span class="kw">let </span>descendants = <span class="self">self</span>.descendants(path);
+        <span class="kw">let </span>all_readable = descendants.iter().all(|(<span class="kw">_</span>, mode)| mode &amp; <span class="number">0o444 </span>!= <span class="number">0</span>);
 
-        <span class="kw">if</span> <span class="op">!</span><span class="ident">all_readable</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::PermissionDenied</span>));
+        <span class="kw">if </span>!all_readable {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::PermissionDenied));
         }
 
-        <span class="kw">for</span> (<span class="ident">child</span>, <span class="kw">_</span>) <span class="kw">in</span> <span class="ident">descendants</span> {
-            <span class="self">self</span>.<span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="ident">child</span>)<span class="question-mark">?</span>;
+        <span class="kw">for </span>(child, <span class="kw">_</span>) <span class="kw">in </span>descendants {
+            <span class="self">self</span>.remove(<span class="kw-2">&amp;</span>child)<span class="question-mark">?</span>;
         }
 
-        <span class="self">self</span>.<span class="ident">remove</span>(<span class="ident">path</span>).<span class="ident">and</span>(<span class="prelude-val">Ok</span>(()))
+        <span class="self">self</span>.remove(path).and(<span class="prelude-val">Ok</span>(()))
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_dir</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="ident">path</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">get_dir</span>(<span class="ident">path</span>)<span class="question-mark">?</span>;
+    <span class="kw">pub fn </span>read_dir(<span class="kw-2">&amp;</span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;PathBuf&gt;&gt; {
+        <span class="kw">let </span>path = <span class="kw-2">&amp;</span><span class="self">self</span>.resolve_path(path, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.get_dir(path)<span class="question-mark">?</span>;
 
-        <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">children</span>(<span class="ident">path</span>))
+        <span class="prelude-val">Ok</span>(<span class="self">self</span>.children(path))
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">create_file</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="ident">path</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="ident">File::new</span>(<span class="ident">buf</span>.<span class="ident">to_vec</span>());
-        <span class="self">self</span>.<span class="ident">insert</span>(<span class="ident">path</span>.<span class="ident">to_path_buf</span>(), <span class="ident">Node::File</span>(<span class="ident">file</span>))
+    <span class="kw">pub fn </span>create_file(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path, buf: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">let </span>path = <span class="kw-2">&amp;</span><span class="self">self</span>.resolve_path(path, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
+        <span class="kw">let </span>file = File::new(buf.to_vec());
+        <span class="self">self</span>.insert(path.to_path_buf(), Node::File(file))
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">write_file</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="ident">path</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">get_file_mut</span>(<span class="ident">path</span>)
-            .<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">contents</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">to_vec</span>())
-            .<span class="ident">or_else</span>(<span class="op">|</span><span class="ident">e</span><span class="op">|</span> {
-                <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">ErrorKind::NotFound</span> {
-                    <span class="self">self</span>.<span class="ident">create_file</span>(<span class="ident">path</span>, <span class="ident">buf</span>)
-                } <span class="kw">else</span> {
-                    <span class="prelude-val">Err</span>(<span class="ident">e</span>)
+    <span class="kw">pub fn </span>write_file(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path, buf: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">let </span>path = <span class="kw-2">&amp;</span><span class="self">self</span>.resolve_path(path, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.get_file_mut(path)
+            .map(|<span class="kw-2">ref mut </span>f| f.contents = buf.to_vec())
+            .or_else(|e| {
+                <span class="kw">if </span>e.kind() == ErrorKind::NotFound {
+                    <span class="self">self</span>.create_file(path, buf)
+                } <span class="kw">else </span>{
+                    <span class="prelude-val">Err</span>(e)
                 }
             })
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">overwrite_file</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;</span>[<span class="ident">u8</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="ident">path</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">get_file_mut</span>(<span class="ident">path</span>)
-            .<span class="ident">map</span>(<span class="op">|</span><span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">f</span><span class="op">|</span> <span class="ident">f</span>.<span class="ident">contents</span> <span class="op">=</span> <span class="ident">buf</span>.<span class="ident">to_vec</span>())
+    <span class="kw">pub fn </span>overwrite_file(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path, buf: <span class="kw-2">&amp;</span>[u8]) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">let </span>path = <span class="kw-2">&amp;</span><span class="self">self</span>.resolve_path(path, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
+        <span class="self">self</span>.get_file_mut(path)
+            .map(|<span class="kw-2">ref mut </span>f| f.contents = buf.to_vec())
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="ident">path</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">get_file</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">f</span>) <span class="kw">if</span> <span class="ident">f</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o444</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> =&gt; <span class="prelude-val">Ok</span>(<span class="ident">f</span>.<span class="ident">contents</span>.<span class="ident">clone</span>()),
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::PermissionDenied</span>)),
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">err</span>),
+    <span class="kw">pub fn </span>read_file(<span class="kw-2">&amp;</span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;Vec&lt;u8&gt;&gt; {
+        <span class="kw">let </span>path = <span class="kw-2">&amp;</span><span class="self">self</span>.resolve_path(path, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
+        <span class="kw">match </span><span class="self">self</span>.get_file(path) {
+            <span class="prelude-val">Ok</span>(f) <span class="kw">if </span>f.mode &amp; <span class="number">0o444 </span>!= <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(f.contents.clone()),
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::PermissionDenied)),
+            <span class="prelude-val">Err</span>(err) =&gt; <span class="prelude-val">Err</span>(err),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_file_to_string</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="ident">path</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">read_file</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">vec</span>) =&gt; <span class="ident">String::from_utf8</span>(<span class="ident">vec</span>).<span class="ident">map_err</span>(<span class="op">|</span><span class="kw">_</span><span class="op">|</span> <span class="ident">create_error</span>(<span class="ident">ErrorKind::InvalidData</span>)),
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">err</span>),
+    <span class="kw">pub fn </span>read_file_to_string(<span class="kw-2">&amp;</span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;String&gt; {
+        <span class="kw">let </span>path = <span class="kw-2">&amp;</span><span class="self">self</span>.resolve_path(path, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
+        <span class="kw">match </span><span class="self">self</span>.read_file(path) {
+            <span class="prelude-val">Ok</span>(vec) =&gt; String::from_utf8(vec).map_err(|<span class="kw">_</span>| create_error(ErrorKind::InvalidData)),
+            <span class="prelude-val">Err</span>(err) =&gt; <span class="prelude-val">Err</span>(err),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_file_into</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">buf</span>: <span class="kw-2">&amp;mut</span> <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="ident">path</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">get_file</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">f</span>) <span class="kw">if</span> <span class="ident">f</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o444</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> =&gt; {
-                <span class="ident">buf</span>.<span class="ident">extend</span>(<span class="kw-2">&amp;</span><span class="ident">f</span>.<span class="ident">contents</span>);
-                <span class="prelude-val">Ok</span>(<span class="ident">f</span>.<span class="ident">contents</span>.<span class="ident">len</span>())
+    <span class="kw">pub fn </span>read_file_into(<span class="kw-2">&amp;</span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path, buf: <span class="kw-2">&amp;mut </span>Vec&lt;u8&gt;) -&gt; <span class="prelude-ty">Result</span>&lt;usize&gt; {
+        <span class="kw">let </span>path = <span class="kw-2">&amp;</span><span class="self">self</span>.resolve_path(path, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
+        <span class="kw">match </span><span class="self">self</span>.get_file(path) {
+            <span class="prelude-val">Ok</span>(f) <span class="kw">if </span>f.mode &amp; <span class="number">0o444 </span>!= <span class="number">0 </span>=&gt; {
+                buf.extend(<span class="kw-2">&amp;</span>f.contents);
+                <span class="prelude-val">Ok</span>(f.contents.len())
             }
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::PermissionDenied</span>)),
-            <span class="prelude-val">Err</span>(<span class="ident">err</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">err</span>),
+            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::PermissionDenied)),
+            <span class="prelude-val">Err</span>(err) =&gt; <span class="prelude-val">Err</span>(err),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">remove_file</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="ident">path</span>, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">get</span>(<span class="ident">path</span>)<span class="question-mark">?</span> {
-            <span class="ident">Node::File</span>(<span class="kw">_</span>) <span class="op">|</span> <span class="ident">Node::Symlink</span>(<span class="kw">_</span>) =&gt; <span class="self">self</span>.<span class="ident">remove</span>(<span class="ident">path</span>).<span class="ident">and</span>(<span class="prelude-val">Ok</span>(())),
-            <span class="ident">Node::Dir</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::Other</span>)),
+    <span class="kw">pub fn </span>remove_file(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">let </span>path = <span class="kw-2">&amp;</span><span class="self">self</span>.resolve_path(path, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
+        <span class="kw">match </span><span class="self">self</span>.get(path)<span class="question-mark">? </span>{
+            Node::File(<span class="kw">_</span>) | Node::Symlink(<span class="kw">_</span>) =&gt; <span class="self">self</span>.remove(path).and(<span class="prelude-val">Ok</span>(())),
+            Node::Dir(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::Other)),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">copy_file</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">from</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">to</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">from</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="ident">from</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
-        <span class="kw">let</span> <span class="ident">to</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="ident">to</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
-        <span class="kw">match</span> (<span class="self">self</span>.<span class="ident">read_file</span>(<span class="ident">from</span>), <span class="self">self</span>.<span class="ident">get</span>(<span class="ident">to</span>)) {
-            (<span class="prelude-val">Ok</span>(<span class="kw-2">ref</span> <span class="ident">buf</span>), <span class="prelude-val">Err</span>(<span class="ident">e</span>)) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">ErrorKind::NotFound</span> =&gt; <span class="self">self</span>.<span class="ident">write_file</span>(<span class="ident">to</span>, <span class="ident">buf</span>),
-            (<span class="prelude-val">Ok</span>(<span class="kw-2">ref</span> <span class="ident">buf</span>), <span class="prelude-val">Ok</span>(<span class="ident">Node::File</span>(<span class="ident">f</span>))) <span class="kw">if</span> <span class="ident">f</span>.<span class="ident">mode</span> <span class="op">!</span><span class="op">=</span> <span class="number">644</span> =&gt; <span class="self">self</span>.<span class="ident">write_file</span>(<span class="ident">to</span>, <span class="ident">buf</span>),
-            (<span class="prelude-val">Ok</span>(<span class="kw-2">ref</span> <span class="ident">buf</span>), <span class="prelude-val">Ok</span>(<span class="ident">Node::Symlink</span>(<span class="ident">l</span>))) <span class="kw">if</span> <span class="ident">l</span>.<span class="ident">mode</span> <span class="op">!</span><span class="op">=</span> <span class="number">644</span> =&gt; <span class="self">self</span>.<span class="ident">write_file</span>(<span class="ident">to</span>, <span class="ident">buf</span>),
-            (<span class="prelude-val">Ok</span>(<span class="kw">_</span>), <span class="prelude-val">Ok</span>(<span class="ident">Node::Symlink</span>(<span class="kw">_</span>)) <span class="op">|</span> <span class="prelude-val">Ok</span>(<span class="ident">Node::File</span>(<span class="kw">_</span>))) =&gt; {
-                <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::PermissionDenied</span>))
+    <span class="kw">pub fn </span>copy_file(<span class="kw-2">&amp;mut </span><span class="self">self</span>, from: <span class="kw-2">&amp;</span>Path, to: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">let </span>from = <span class="kw-2">&amp;</span><span class="self">self</span>.resolve_path(from, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
+        <span class="kw">let </span>to = <span class="kw-2">&amp;</span><span class="self">self</span>.resolve_path(to, <span class="bool-val">true</span>)<span class="question-mark">?</span>;
+        <span class="kw">match </span>(<span class="self">self</span>.read_file(from), <span class="self">self</span>.get(to)) {
+            (<span class="prelude-val">Ok</span>(<span class="kw-2">ref </span>buf), <span class="prelude-val">Err</span>(e)) <span class="kw">if </span>e.kind() == ErrorKind::NotFound =&gt; <span class="self">self</span>.write_file(to, buf),
+            (<span class="prelude-val">Ok</span>(<span class="kw-2">ref </span>buf), <span class="prelude-val">Ok</span>(Node::File(f))) <span class="kw">if </span>f.mode != <span class="number">644 </span>=&gt; <span class="self">self</span>.write_file(to, buf),
+            (<span class="prelude-val">Ok</span>(<span class="kw-2">ref </span>buf), <span class="prelude-val">Ok</span>(Node::Symlink(l))) <span class="kw">if </span>l.mode != <span class="number">644 </span>=&gt; <span class="self">self</span>.write_file(to, buf),
+            (<span class="prelude-val">Ok</span>(<span class="kw">_</span>), <span class="prelude-val">Ok</span>(Node::Symlink(<span class="kw">_</span>)) | <span class="prelude-val">Ok</span>(Node::File(<span class="kw">_</span>))) =&gt; {
+                <span class="prelude-val">Err</span>(create_error(ErrorKind::PermissionDenied))
             }
-            (<span class="prelude-val">Ok</span>(<span class="kw">_</span>), <span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::IsADirectory</span>)),
-            (<span class="prelude-val">Err</span>(<span class="ident">e</span>), <span class="kw">_</span>) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">ErrorKind::IsADirectory</span> =&gt; {
-                <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::InvalidInput</span>))
+            (<span class="prelude-val">Ok</span>(<span class="kw">_</span>), <span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::IsADirectory)),
+            (<span class="prelude-val">Err</span>(e), <span class="kw">_</span>) <span class="kw">if </span>e.kind() == ErrorKind::IsADirectory =&gt; {
+                <span class="prelude-val">Err</span>(create_error(ErrorKind::InvalidInput))
             }
-            (<span class="prelude-val">Err</span>(<span class="ident">e</span>), <span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+            (<span class="prelude-val">Err</span>(e), <span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(e),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">read_link</span><span class="op">&lt;</span><span class="ident">P</span>: <span class="ident">AsRef</span><span class="op">&lt;</span><span class="ident">Path</span><span class="op">&gt;</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;_</span> <span class="self">self</span>, <span class="ident">dst</span>: <span class="ident">P</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="ident">dst</span>.<span class="ident">as_ref</span>(), <span class="bool-val">false</span>)<span class="question-mark">?</span>;
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>) {
-            <span class="prelude-val">Some</span>(<span class="ident">Node::Symlink</span>(<span class="ident">link</span>)) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">link</span>.<span class="ident">source</span>.<span class="ident">to_path_buf</span>()),
-            <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::InvalidInput</span>)),
-            <span class="prelude-val">None</span> =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::NotFound</span>)),
+    <span class="kw">pub fn </span>read_link&lt;P: AsRef&lt;Path&gt;&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span><span class="self">self</span>, dst: P) -&gt; <span class="prelude-ty">Result</span>&lt;PathBuf&gt; {
+        <span class="kw">let </span>path = <span class="self">self</span>.resolve_path(dst.as_ref(), <span class="bool-val">false</span>)<span class="question-mark">?</span>;
+        <span class="kw">match </span><span class="self">self</span>.files.get(<span class="kw-2">&amp;</span>path) {
+            <span class="prelude-val">Some</span>(Node::Symlink(link)) =&gt; <span class="prelude-val">Ok</span>(link.source.to_path_buf()),
+            <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::InvalidInput)),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::NotFound)),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">resolve_path</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;_</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">follow_last_component</span>: <span class="ident">bool</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Some</span>(<span class="ident">Node::File</span>(<span class="kw">_</span>)) <span class="op">|</span> <span class="prelude-val">Some</span>(<span class="ident">Node::Dir</span>(<span class="kw">_</span>)) =&gt; <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">path</span>.<span class="ident">to_path_buf</span>()),
-            <span class="prelude-val">Some</span>(<span class="ident">Node::Symlink</span>(<span class="kw">_</span>)) <span class="kw">if</span> <span class="ident">follow_last_component</span> =&gt; {
-                <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="self">self</span>.<span class="ident">recurse_symlink</span>(<span class="ident">path</span>).<span class="ident">map</span>(<span class="op">|</span>(<span class="kw">_</span>, <span class="ident">p</span>)<span class="op">|</span> <span class="ident">p</span>)<span class="question-mark">?</span>)
+    <span class="kw">fn </span>resolve_path(<span class="kw-2">&amp;</span><span class="lifetime">&#39;_ </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path, follow_last_component: bool) -&gt; <span class="prelude-ty">Result</span>&lt;PathBuf&gt; {
+        <span class="kw">match </span><span class="self">self</span>.files.get(path) {
+            <span class="prelude-val">Some</span>(Node::File(<span class="kw">_</span>)) | <span class="prelude-val">Some</span>(Node::Dir(<span class="kw">_</span>)) =&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(path.to_path_buf()),
+            <span class="prelude-val">Some</span>(Node::Symlink(<span class="kw">_</span>)) <span class="kw">if </span>follow_last_component =&gt; {
+                <span class="kw">return </span><span class="prelude-val">Ok</span>(<span class="self">self</span>.recurse_symlink(path).map(|(<span class="kw">_</span>, p)| p)<span class="question-mark">?</span>)
             }
-            <span class="prelude-val">Some</span>(<span class="ident">Node::Symlink</span>(<span class="kw">_</span>)) =&gt; <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">path</span>.<span class="ident">to_path_buf</span>()),
-            <span class="prelude-val">None</span> =&gt; (),
+            <span class="prelude-val">Some</span>(Node::Symlink(<span class="kw">_</span>)) =&gt; <span class="kw">return </span><span class="prelude-val">Ok</span>(path.to_path_buf()),
+            <span class="prelude-val">None </span>=&gt; (),
         }
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pathbuf</span> <span class="op">=</span> <span class="ident">PathBuf::new</span>();
-        <span class="kw">let</span> <span class="ident">count</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">components</span>().<span class="ident">count</span>();
-        <span class="kw">for</span> (<span class="ident">i</span>, <span class="ident">component</span>) <span class="kw">in</span> <span class="ident">path</span>.<span class="ident">components</span>().<span class="ident">enumerate</span>() {
-            <span class="kw">match</span> <span class="ident">component</span> {
-                <span class="ident">Component::Prefix</span>(<span class="ident">prefix</span>) =&gt; {
-                    <span class="ident">pathbuf</span>.<span class="ident">push</span>(<span class="ident">Component::Prefix</span>(<span class="ident">prefix</span>));
+        <span class="kw">let </span><span class="kw-2">mut </span>pathbuf = PathBuf::new();
+        <span class="kw">let </span>count = path.components().count();
+        <span class="kw">for </span>(i, component) <span class="kw">in </span>path.components().enumerate() {
+            <span class="kw">match </span>component {
+                Component::Prefix(prefix) =&gt; {
+                    pathbuf.push(Component::Prefix(prefix));
                     <span class="kw">continue</span>;
                 }
-                <span class="ident">Component::RootDir</span> =&gt; {
-                    <span class="ident">pathbuf</span>.<span class="ident">push</span>(<span class="ident">Component::RootDir</span>);
+                Component::RootDir =&gt; {
+                    pathbuf.push(Component::RootDir);
                     <span class="kw">continue</span>;
                 }
-                <span class="ident">Component::Normal</span>(<span class="ident">comp</span>) =&gt; <span class="ident">pathbuf</span>.<span class="ident">push</span>(<span class="ident">Component::Normal</span>(<span class="ident">comp</span>)),
-                <span class="ident">Component::CurDir</span> <span class="op">|</span> <span class="ident">Component::ParentDir</span> =&gt; {
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::InvalidInput</span>))
+                Component::Normal(comp) =&gt; pathbuf.push(Component::Normal(comp)),
+                Component::CurDir | Component::ParentDir =&gt; {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::InvalidInput))
                 }
             }
 
-            <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">pathbuf</span>) {
-                <span class="prelude-val">Some</span>(<span class="ident">Node::File</span>(<span class="kw">_</span>)) <span class="op">|</span> <span class="prelude-val">Some</span>(<span class="ident">Node::Dir</span>(<span class="kw">_</span>)) =&gt; <span class="kw">continue</span>,
-                <span class="prelude-val">Some</span>(<span class="ident">Node::Symlink</span>(<span class="kw">_</span>)) =&gt; {
-                    <span class="kw">if</span> <span class="op">!</span><span class="ident">follow_last_component</span> <span class="op">&amp;&amp;</span> <span class="ident">i</span> <span class="op">==</span> <span class="ident">count</span> <span class="op">-</span> <span class="number">1</span> {
-                        <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">pathbuf</span>);
-                    } <span class="kw">else</span> {
-                        <span class="ident">pathbuf</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">recurse_symlink</span>(<span class="kw-2">&amp;</span><span class="ident">pathbuf</span>).<span class="ident">map</span>(<span class="op">|</span>(<span class="kw">_</span>, <span class="ident">p</span>)<span class="op">|</span> <span class="ident">p</span>)<span class="question-mark">?</span>;
+            <span class="kw">match </span><span class="self">self</span>.files.get(<span class="kw-2">&amp;</span>pathbuf) {
+                <span class="prelude-val">Some</span>(Node::File(<span class="kw">_</span>)) | <span class="prelude-val">Some</span>(Node::Dir(<span class="kw">_</span>)) =&gt; <span class="kw">continue</span>,
+                <span class="prelude-val">Some</span>(Node::Symlink(<span class="kw">_</span>)) =&gt; {
+                    <span class="kw">if </span>!follow_last_component &amp;&amp; i == count - <span class="number">1 </span>{
+                        <span class="kw">return </span><span class="prelude-val">Ok</span>(pathbuf);
+                    } <span class="kw">else </span>{
+                        pathbuf = <span class="self">self</span>.recurse_symlink(<span class="kw-2">&amp;</span>pathbuf).map(|(<span class="kw">_</span>, p)| p)<span class="question-mark">?</span>;
                     }
                 }
-                <span class="prelude-val">None</span> =&gt; {
-                    <span class="kw">if</span> <span class="ident">i</span> <span class="op">==</span> <span class="ident">count</span> <span class="op">-</span> <span class="number">1</span> {
-                        <span class="kw">return</span> <span class="prelude-val">Ok</span>(<span class="ident">pathbuf</span>);
-                    } <span class="kw">else</span> {
-                        <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::NotFound</span>));
+                <span class="prelude-val">None </span>=&gt; {
+                    <span class="kw">if </span>i == count - <span class="number">1 </span>{
+                        <span class="kw">return </span><span class="prelude-val">Ok</span>(pathbuf);
+                    } <span class="kw">else </span>{
+                        <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::NotFound));
                     }
                 }
             }
         }
-        <span class="prelude-val">Ok</span>(<span class="ident">pathbuf</span>)
+        <span class="prelude-val">Ok</span>(pathbuf)
     }
-    <span class="kw">fn</span> <span class="ident">recurse_symlink</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> <span class="ident">Node</span>, <span class="ident">PathBuf</span>)<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">traversed_items</span> <span class="op">=</span> <span class="ident">HashSet::new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">path</span>;
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">current</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="ident">path</span>);
-        <span class="kw">while</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Symlink</span>(<span class="kw">_</span>)) <span class="op">=</span> <span class="ident">current</span> {
-            <span class="kw">if</span> <span class="ident">traversed_items</span>.<span class="ident">contains</span>(<span class="ident">path</span>) {
-                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::Other</span>));
+    <span class="kw">fn </span>recurse_symlink&lt;<span class="lifetime">&#39;a</span>&gt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;(<span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>Node, PathBuf)&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>traversed_items = HashSet::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>path = path;
+        <span class="kw">let </span><span class="kw-2">mut </span>current = <span class="self">self</span>.files.get(path);
+        <span class="kw">while let </span><span class="prelude-val">Some</span>(<span class="kw-2">&amp;</span>Node::Symlink(<span class="kw">_</span>)) = current {
+            <span class="kw">if </span>traversed_items.contains(path) {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::Other));
             }
-            <span class="ident">traversed_items</span>.<span class="ident">insert</span>(<span class="ident">path</span>.<span class="ident">to_path_buf</span>());
-            <span class="ident">path</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="ident">Node::Symlink</span>(<span class="kw-2">ref</span> <span class="ident">link</span>) <span class="op">=</span> <span class="ident">current</span>.<span class="ident">unwrap</span>() {
-                <span class="kw-2">&amp;</span><span class="ident">link</span>.<span class="ident">source</span>
-            } <span class="kw">else</span> {
-                <span class="ident">path</span>
+            traversed_items.insert(path.to_path_buf());
+            path = <span class="kw">if let </span>Node::Symlink(<span class="kw-2">ref </span>link) = current.unwrap() {
+                <span class="kw-2">&amp;</span>link.source
+            } <span class="kw">else </span>{
+                path
             };
-            <span class="ident">current</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="ident">path</span>);
+            current = <span class="self">self</span>.files.get(path);
         }
-        <span class="kw">match</span> <span class="ident">current</span> {
-            <span class="prelude-val">None</span> =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::NotFound</span>)),
-            <span class="prelude-val">Some</span>(<span class="ident">node</span>) =&gt; <span class="prelude-val">Ok</span>((<span class="kw-2">&amp;</span><span class="ident">node</span>, <span class="ident">path</span>.<span class="ident">to_path_buf</span>())),
+        <span class="kw">match </span>current {
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::NotFound)),
+            <span class="prelude-val">Some</span>(node) =&gt; <span class="prelude-val">Ok</span>((<span class="kw-2">&amp;</span>node, path.to_path_buf())),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">rename</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">from</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">to</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">from</span> <span class="op">=</span> <span class="ident">from</span>.<span class="ident">to_path_buf</span>();
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>, <span class="bool-val">false</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">path</span>) =&gt; <span class="ident">from</span> <span class="op">=</span> <span class="ident">path</span>,
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::NotFound</span>)),
+    <span class="kw">pub fn </span>rename(<span class="kw-2">&amp;mut </span><span class="self">self</span>, from: <span class="kw-2">&amp;</span>Path, to: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>from = from.to_path_buf();
+        <span class="kw">match </span><span class="self">self</span>.resolve_path(<span class="kw-2">&amp;</span>from, <span class="bool-val">false</span>) {
+            <span class="prelude-val">Ok</span>(path) =&gt; from = path,
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::NotFound)),
         }
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">to</span> <span class="op">=</span> <span class="ident">to</span>.<span class="ident">to_path_buf</span>();
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="kw-2">&amp;</span><span class="ident">to</span>, <span class="bool-val">false</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">path</span>) =&gt; <span class="ident">to</span> <span class="op">=</span> <span class="ident">path</span>,
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::NotFound</span>)),
+        <span class="kw">let </span><span class="kw-2">mut </span>to = to.to_path_buf();
+        <span class="kw">match </span><span class="self">self</span>.resolve_path(<span class="kw-2">&amp;</span>to, <span class="bool-val">false</span>) {
+            <span class="prelude-val">Ok</span>(path) =&gt; to = path,
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::NotFound)),
         }
-        <span class="kw">match</span> (<span class="self">self</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>), <span class="self">self</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">to</span>)) {
-            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::File</span>(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::File</span>(<span class="kw">_</span>))) =&gt; {
-                <span class="self">self</span>.<span class="ident">remove_file</span>(<span class="kw-2">&amp;</span><span class="ident">to</span>)<span class="question-mark">?</span>;
-                <span class="self">self</span>.<span class="ident">rename_path</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>, <span class="ident">to</span>)
+        <span class="kw">match </span>(<span class="self">self</span>.get(<span class="kw-2">&amp;</span>from), <span class="self">self</span>.get(<span class="kw-2">&amp;</span>to)) {
+            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::File(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::File(<span class="kw">_</span>))) =&gt; {
+                <span class="self">self</span>.remove_file(<span class="kw-2">&amp;</span>to)<span class="question-mark">?</span>;
+                <span class="self">self</span>.rename_path(<span class="kw-2">&amp;</span>from, to)
             }
-            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::File</span>(<span class="kw">_</span>)), <span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="ident">err</span>)) <span class="kw">if</span> <span class="ident">err</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">ErrorKind::NotFound</span> =&gt; {
-                <span class="self">self</span>.<span class="ident">rename_path</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>, <span class="ident">to</span>)
+            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::File(<span class="kw">_</span>)), <span class="prelude-val">Err</span>(<span class="kw-2">ref </span>err)) <span class="kw">if </span>err.kind() == ErrorKind::NotFound =&gt; {
+                <span class="self">self</span>.rename_path(<span class="kw-2">&amp;</span>from, to)
             }
-            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Dir</span>(<span class="kw">_</span>)), <span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="ident">err</span>)) <span class="kw">if</span> <span class="ident">err</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">ErrorKind::NotFound</span> =&gt; {
-                <span class="self">self</span>.<span class="ident">move_dir</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>, <span class="kw-2">&amp;</span><span class="ident">to</span>)
+            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Dir(<span class="kw">_</span>)), <span class="prelude-val">Err</span>(<span class="kw-2">ref </span>err)) <span class="kw">if </span>err.kind() == ErrorKind::NotFound =&gt; {
+                <span class="self">self</span>.move_dir(<span class="kw-2">&amp;</span>from, <span class="kw-2">&amp;</span>to)
             }
-            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Dir</span>(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Dir</span>(<span class="kw">_</span>))) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">descendants</span>(<span class="kw-2">&amp;</span><span class="ident">to</span>).<span class="ident">is_empty</span>() =&gt; {
-                <span class="self">self</span>.<span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="ident">to</span>)<span class="question-mark">?</span>;
-                <span class="self">self</span>.<span class="ident">move_dir</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>, <span class="kw-2">&amp;</span><span class="ident">to</span>)
+            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Dir(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Dir(<span class="kw">_</span>))) <span class="kw">if </span><span class="self">self</span>.descendants(<span class="kw-2">&amp;</span>to).is_empty() =&gt; {
+                <span class="self">self</span>.remove(<span class="kw-2">&amp;</span>to)<span class="question-mark">?</span>;
+                <span class="self">self</span>.move_dir(<span class="kw-2">&amp;</span>from, <span class="kw-2">&amp;</span>to)
             }
-            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::File</span>(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Symlink</span>(<span class="kw">_</span>)))
-                <span class="kw">if</span> <span class="self">self</span>.<span class="ident">recurse_symlink</span>(<span class="kw-2">&amp;</span><span class="ident">to</span>)<span class="question-mark">?</span>.<span class="number">0</span>.<span class="ident">is_file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) =&gt;
+            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::File(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Symlink(<span class="kw">_</span>)))
+                <span class="kw">if </span><span class="self">self</span>.recurse_symlink(<span class="kw-2">&amp;</span>to)<span class="question-mark">?</span>.<span class="number">0</span>.is_file(<span class="kw-2">&amp;</span><span class="self">self</span>) =&gt;
             {
-                <span class="self">self</span>.<span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="ident">to</span>)<span class="question-mark">?</span>;
-                <span class="self">self</span>.<span class="ident">rename_path</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>, <span class="ident">to</span>)
+                <span class="self">self</span>.remove(<span class="kw-2">&amp;</span>to)<span class="question-mark">?</span>;
+                <span class="self">self</span>.rename_path(<span class="kw-2">&amp;</span>from, to)
             }
-            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Dir</span>(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Symlink</span>(<span class="kw">_</span>))) =&gt; <span class="kw">match</span> <span class="self">self</span>.<span class="ident">recurse_symlink</span>(<span class="kw-2">&amp;</span><span class="ident">to</span>)<span class="question-mark">?</span> {
-                (<span class="ident">Node::Dir</span>(<span class="kw">_</span>), <span class="ident">path</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">descendants</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>).<span class="ident">is_empty</span>() =&gt; {
-                    <span class="self">self</span>.<span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="ident">to</span>)<span class="question-mark">?</span>;
-                    <span class="self">self</span>.<span class="ident">move_dir</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>, <span class="kw-2">&amp;</span><span class="ident">to</span>)
+            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Dir(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Symlink(<span class="kw">_</span>))) =&gt; <span class="kw">match </span><span class="self">self</span>.recurse_symlink(<span class="kw-2">&amp;</span>to)<span class="question-mark">? </span>{
+                (Node::Dir(<span class="kw">_</span>), path) <span class="kw">if </span><span class="self">self</span>.descendants(<span class="kw-2">&amp;</span>path).is_empty() =&gt; {
+                    <span class="self">self</span>.remove(<span class="kw-2">&amp;</span>to)<span class="question-mark">?</span>;
+                    <span class="self">self</span>.move_dir(<span class="kw-2">&amp;</span>from, <span class="kw-2">&amp;</span>to)
                 }
-                <span class="kw">_</span> =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::Other</span>)),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::Other)),
             },
-            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Symlink</span>(<span class="kw">_</span>)), <span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="ident">err</span>)) <span class="kw">if</span> <span class="ident">err</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">ErrorKind::NotFound</span> =&gt; {
-                <span class="self">self</span>.<span class="ident">rename_path</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>, <span class="ident">to</span>)
+            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Symlink(<span class="kw">_</span>)), <span class="prelude-val">Err</span>(<span class="kw-2">ref </span>err)) <span class="kw">if </span>err.kind() == ErrorKind::NotFound =&gt; {
+                <span class="self">self</span>.rename_path(<span class="kw-2">&amp;</span>from, to)
             }
-            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Symlink</span>(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::File</span>(<span class="kw">_</span>)))
-                <span class="kw">if</span> <span class="self">self</span>.<span class="ident">recurse_symlink</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>)<span class="question-mark">?</span>.<span class="number">0</span>.<span class="ident">is_file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) =&gt;
+            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Symlink(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::File(<span class="kw">_</span>)))
+                <span class="kw">if </span><span class="self">self</span>.recurse_symlink(<span class="kw-2">&amp;</span>from)<span class="question-mark">?</span>.<span class="number">0</span>.is_file(<span class="kw-2">&amp;</span><span class="self">self</span>) =&gt;
             {
-                <span class="self">self</span>.<span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="ident">to</span>)<span class="question-mark">?</span>;
-                <span class="self">self</span>.<span class="ident">rename_path</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>, <span class="ident">to</span>)
+                <span class="self">self</span>.remove(<span class="kw-2">&amp;</span>to)<span class="question-mark">?</span>;
+                <span class="self">self</span>.rename_path(<span class="kw-2">&amp;</span>from, to)
             }
-            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Symlink</span>(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Dir</span>(<span class="kw">_</span>))) =&gt; <span class="kw">match</span> <span class="self">self</span>.<span class="ident">recurse_symlink</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>)<span class="question-mark">?</span> {
-                (<span class="ident">Node::Dir</span>(<span class="kw">_</span>), <span class="kw">_</span>) <span class="kw">if</span> <span class="self">self</span>.<span class="ident">descendants</span>(<span class="kw-2">&amp;</span><span class="ident">to</span>).<span class="ident">is_empty</span>() =&gt; {
-                    <span class="self">self</span>.<span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="ident">to</span>)<span class="question-mark">?</span>;
-                    <span class="self">self</span>.<span class="ident">move_dir</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>, <span class="kw-2">&amp;</span><span class="ident">to</span>)
+            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Symlink(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Dir(<span class="kw">_</span>))) =&gt; <span class="kw">match </span><span class="self">self</span>.recurse_symlink(<span class="kw-2">&amp;</span>from)<span class="question-mark">? </span>{
+                (Node::Dir(<span class="kw">_</span>), <span class="kw">_</span>) <span class="kw">if </span><span class="self">self</span>.descendants(<span class="kw-2">&amp;</span>to).is_empty() =&gt; {
+                    <span class="self">self</span>.remove(<span class="kw-2">&amp;</span>to)<span class="question-mark">?</span>;
+                    <span class="self">self</span>.move_dir(<span class="kw-2">&amp;</span>from, <span class="kw-2">&amp;</span>to)
                 }
-                <span class="kw">_</span> =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::Other</span>)),
+                <span class="kw">_ </span>=&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::Other)),
             },
-            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Symlink</span>(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Symlink</span>(<span class="kw">_</span>))) =&gt; {
-                <span class="kw">match</span> (<span class="self">self</span>.<span class="ident">recurse_symlink</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>), <span class="self">self</span>.<span class="ident">recurse_symlink</span>(<span class="kw-2">&amp;</span><span class="ident">to</span>)) {
-                    (<span class="prelude-val">Ok</span>(<span class="kw">_</span>), <span class="prelude-val">Err</span>(<span class="ident">e</span>)) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">ErrorKind::NotFound</span> =&gt; {
-                        <span class="self">self</span>.<span class="ident">rename_path</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>, <span class="ident">to</span>.<span class="ident">to_path_buf</span>())
+            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Symlink(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Symlink(<span class="kw">_</span>))) =&gt; {
+                <span class="kw">match </span>(<span class="self">self</span>.recurse_symlink(<span class="kw-2">&amp;</span>from), <span class="self">self</span>.recurse_symlink(<span class="kw-2">&amp;</span>to)) {
+                    (<span class="prelude-val">Ok</span>(<span class="kw">_</span>), <span class="prelude-val">Err</span>(e)) <span class="kw">if </span>e.kind() == ErrorKind::NotFound =&gt; {
+                        <span class="self">self</span>.rename_path(<span class="kw-2">&amp;</span>from, to.to_path_buf())
                     }
-                    (<span class="prelude-val">Err</span>(<span class="ident">e</span>), <span class="prelude-val">Ok</span>((<span class="ident">Node::File</span>(<span class="kw">_</span>), <span class="kw">_</span>))) <span class="kw">if</span> <span class="ident">e</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">ErrorKind::NotFound</span> =&gt; {
-                        <span class="self">self</span>.<span class="ident">remove_file</span>(<span class="kw-2">&amp;</span><span class="ident">to</span>)<span class="question-mark">?</span>;
-                        <span class="self">self</span>.<span class="ident">rename_path</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>, <span class="ident">to</span>)
+                    (<span class="prelude-val">Err</span>(e), <span class="prelude-val">Ok</span>((Node::File(<span class="kw">_</span>), <span class="kw">_</span>))) <span class="kw">if </span>e.kind() == ErrorKind::NotFound =&gt; {
+                        <span class="self">self</span>.remove_file(<span class="kw-2">&amp;</span>to)<span class="question-mark">?</span>;
+                        <span class="self">self</span>.rename_path(<span class="kw-2">&amp;</span>from, to)
                     }
-                    (<span class="prelude-val">Err</span>(<span class="ident">e</span>), <span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">e</span>),
-                    (<span class="prelude-val">Ok</span>((<span class="ident">Node::File</span>(<span class="kw">_</span>), <span class="kw">_</span>)), <span class="prelude-val">Ok</span>((<span class="ident">Node::File</span>(<span class="kw">_</span>), <span class="kw">_</span>))) =&gt; {
-                        <span class="self">self</span>.<span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="ident">to</span>)<span class="question-mark">?</span>;
-                        <span class="self">self</span>.<span class="ident">rename_path</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>, <span class="ident">to</span>)
+                    (<span class="prelude-val">Err</span>(e), <span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(e),
+                    (<span class="prelude-val">Ok</span>((Node::File(<span class="kw">_</span>), <span class="kw">_</span>)), <span class="prelude-val">Ok</span>((Node::File(<span class="kw">_</span>), <span class="kw">_</span>))) =&gt; {
+                        <span class="self">self</span>.remove(<span class="kw-2">&amp;</span>to)<span class="question-mark">?</span>;
+                        <span class="self">self</span>.rename_path(<span class="kw-2">&amp;</span>from, to)
                     }
-                    (<span class="prelude-val">Ok</span>((<span class="ident">Node::Dir</span>(<span class="kw">_</span>), <span class="kw">_</span>)), <span class="prelude-val">Ok</span>((<span class="ident">Node::Dir</span>(<span class="kw">_</span>), <span class="ident">path</span>))) =&gt; {
-                        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">descendants</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>).<span class="ident">is_empty</span>() {
-                            <span class="self">self</span>.<span class="ident">remove</span>(<span class="kw-2">&amp;</span><span class="ident">to</span>)<span class="question-mark">?</span>;
-                            <span class="self">self</span>.<span class="ident">rename_path</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>, <span class="ident">to</span>)
-                        } <span class="kw">else</span> {
-                            <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::Other</span>))
+                    (<span class="prelude-val">Ok</span>((Node::Dir(<span class="kw">_</span>), <span class="kw">_</span>)), <span class="prelude-val">Ok</span>((Node::Dir(<span class="kw">_</span>), path))) =&gt; {
+                        <span class="kw">if </span><span class="self">self</span>.descendants(<span class="kw-2">&amp;</span>path).is_empty() {
+                            <span class="self">self</span>.remove(<span class="kw-2">&amp;</span>to)<span class="question-mark">?</span>;
+                            <span class="self">self</span>.rename_path(<span class="kw-2">&amp;</span>from, to)
+                        } <span class="kw">else </span>{
+                            <span class="prelude-val">Err</span>(create_error(ErrorKind::Other))
                         }
                     }
                     (<span class="kw">_</span>, <span class="prelude-val">Err</span>(<span class="kw">_</span>))
-                    <span class="op">|</span> (<span class="prelude-val">Ok</span>((<span class="ident">Node::File</span>(<span class="kw">_</span>), <span class="kw">_</span>)), <span class="kw">_</span>)
-                    <span class="op">|</span> (<span class="prelude-val">Ok</span>((<span class="ident">Node::Dir</span>(<span class="kw">_</span>), <span class="kw">_</span>)), <span class="kw">_</span>)
-                    <span class="op">|</span> (<span class="prelude-val">Ok</span>((<span class="ident">Node::Symlink</span>(<span class="kw">_</span>), <span class="kw">_</span>)), <span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::Other</span>)),
+                    | (<span class="prelude-val">Ok</span>((Node::File(<span class="kw">_</span>), <span class="kw">_</span>)), <span class="kw">_</span>)
+                    | (<span class="prelude-val">Ok</span>((Node::Dir(<span class="kw">_</span>), <span class="kw">_</span>)), <span class="kw">_</span>)
+                    | (<span class="prelude-val">Ok</span>((Node::Symlink(<span class="kw">_</span>), <span class="kw">_</span>)), <span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::Other)),
                 }
             }
-            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::File</span>(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Dir</span>(<span class="kw">_</span>)))
-            <span class="op">|</span> (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::File</span>(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Symlink</span>(<span class="kw">_</span>))) =&gt; {
-                <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::IsADirectory</span>))
+            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::File(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Dir(<span class="kw">_</span>)))
+            | (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::File(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Symlink(<span class="kw">_</span>))) =&gt; {
+                <span class="prelude-val">Err</span>(create_error(ErrorKind::IsADirectory))
             }
-            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Dir</span>(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::File</span>(<span class="kw">_</span>)))
-            <span class="op">|</span> (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Symlink</span>(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::File</span>(<span class="kw">_</span>))) =&gt; {
-                <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::NotADirectory</span>))
+            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Dir(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::File(<span class="kw">_</span>)))
+            | (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Symlink(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::File(<span class="kw">_</span>))) =&gt; {
+                <span class="prelude-val">Err</span>(create_error(ErrorKind::NotADirectory))
             }
-            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Dir</span>(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Dir</span>(<span class="kw">_</span>))) =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::Other</span>)),
-            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">Node::Dir</span>(<span class="kw">_</span>)), <span class="prelude-val">Err</span>(<span class="kw-2">ref</span> <span class="ident">err</span>)) <span class="kw">if</span> <span class="ident">err</span>.<span class="ident">kind</span>() <span class="op">==</span> <span class="ident">ErrorKind::NotFound</span> =&gt; {
-                <span class="self">self</span>.<span class="ident">move_dir</span>(<span class="kw-2">&amp;</span><span class="ident">from</span>, <span class="kw-2">&amp;</span><span class="ident">to</span>)
+            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Dir(<span class="kw">_</span>)), <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Dir(<span class="kw">_</span>))) =&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::Other)),
+            (<span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>Node::Dir(<span class="kw">_</span>)), <span class="prelude-val">Err</span>(<span class="kw-2">ref </span>err)) <span class="kw">if </span>err.kind() == ErrorKind::NotFound =&gt; {
+                <span class="self">self</span>.move_dir(<span class="kw-2">&amp;</span>from, <span class="kw-2">&amp;</span>to)
             }
-            (<span class="prelude-val">Err</span>(<span class="ident">err</span>), <span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">err</span>),
-            (<span class="kw">_</span>, <span class="prelude-val">Err</span>(<span class="ident">err</span>)) =&gt; <span class="prelude-val">Err</span>(<span class="ident">err</span>),
+            (<span class="prelude-val">Err</span>(err), <span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(err),
+            (<span class="kw">_</span>, <span class="prelude-val">Err</span>(err)) =&gt; <span class="prelude-val">Err</span>(err),
         }
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">readonly</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">bool</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">get</span>(<span class="ident">path</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">node</span> {
-            <span class="ident">Node::File</span>(<span class="kw-2">ref</span> <span class="ident">file</span>) =&gt; <span class="ident">file</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o222</span> <span class="op">==</span> <span class="number">0</span>,
-            <span class="ident">Node::Dir</span>(<span class="kw-2">ref</span> <span class="ident">dir</span>) =&gt; <span class="ident">dir</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o222</span> <span class="op">==</span> <span class="number">0</span>,
-            <span class="ident">Node::Symlink</span>(<span class="kw-2">ref</span> <span class="ident">symlink</span>) =&gt; <span class="ident">symlink</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o222</span> <span class="op">==</span> <span class="number">0</span>,
+    <span class="kw">pub fn </span>readonly(<span class="kw-2">&amp;</span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;bool&gt; {
+        <span class="self">self</span>.get(path).map(|node| <span class="kw">match </span>node {
+            Node::File(<span class="kw-2">ref </span>file) =&gt; file.mode &amp; <span class="number">0o222 </span>== <span class="number">0</span>,
+            Node::Dir(<span class="kw-2">ref </span>dir) =&gt; dir.mode &amp; <span class="number">0o222 </span>== <span class="number">0</span>,
+            Node::Symlink(<span class="kw-2">ref </span>symlink) =&gt; symlink.mode &amp; <span class="number">0o222 </span>== <span class="number">0</span>,
         })
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_readonly</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">readonly</span>: <span class="ident">bool</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">fn</span> <span class="ident">set_readonly_mode</span>(<span class="ident">mode</span>: <span class="kw-2">&amp;mut</span> <span class="ident">u32</span>, <span class="ident">readonly</span>: <span class="ident">bool</span>) {
-            <span class="kw">if</span> <span class="ident">readonly</span> {
-                <span class="kw-2">*</span><span class="ident">mode</span> <span class="op">&amp;=</span> <span class="op">!</span><span class="number">0o222</span>
-            } <span class="kw">else</span> {
-                <span class="kw-2">*</span><span class="ident">mode</span> <span class="op">|</span><span class="op">=</span> <span class="number">0o222</span>
-            }
+    <span class="kw">pub fn </span>set_readonly(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path, readonly: bool) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">fn </span>set_readonly_mode(mode: <span class="kw-2">&amp;mut </span>u32, readonly: bool) {
+            <span class="kw">if </span>readonly {
+                <span class="kw-2">*</span>mode &amp;= !<span class="number">0o222
+            </span>} <span class="kw">else </span>{
+                <span class="kw-2">*</span>mode |= <span class="number">0o222
+            </span>}
         }
-        <span class="self">self</span>.<span class="ident">get_mut</span>(<span class="ident">path</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">node</span> {
-            <span class="ident">Node::File</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">file</span>) =&gt; {
-                <span class="ident">set_readonly_mode</span>(<span class="kw-2">&amp;mut</span> <span class="ident">file</span>.<span class="ident">mode</span>, <span class="ident">readonly</span>);
+        <span class="self">self</span>.get_mut(path).map(|node| <span class="kw">match </span>node {
+            Node::File(<span class="kw-2">ref mut </span>file) =&gt; {
+                set_readonly_mode(<span class="kw-2">&amp;mut </span>file.mode, readonly);
             }
-            <span class="ident">Node::Dir</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">dir</span>) =&gt; {
-                <span class="ident">set_readonly_mode</span>(<span class="kw-2">&amp;mut</span> <span class="ident">dir</span>.<span class="ident">mode</span>, <span class="ident">readonly</span>);
+            Node::Dir(<span class="kw-2">ref mut </span>dir) =&gt; {
+                set_readonly_mode(<span class="kw-2">&amp;mut </span>dir.mode, readonly);
             }
-            <span class="ident">Node::Symlink</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">link</span>) =&gt; {
-                <span class="ident">set_readonly_mode</span>(<span class="kw-2">&amp;mut</span> <span class="ident">link</span>.<span class="ident">mode</span>, <span class="ident">readonly</span>);
+            Node::Symlink(<span class="kw-2">ref mut </span>link) =&gt; {
+                set_readonly_mode(<span class="kw-2">&amp;mut </span>link.mode, readonly);
             }
         })
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">mode</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">u32</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">get</span>(<span class="ident">path</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">node</span> {
-            <span class="ident">Node::File</span>(<span class="kw-2">ref</span> <span class="ident">file</span>) =&gt; <span class="ident">file</span>.<span class="ident">mode</span>,
-            <span class="ident">Node::Dir</span>(<span class="kw-2">ref</span> <span class="ident">dir</span>) =&gt; <span class="ident">dir</span>.<span class="ident">mode</span>,
-            <span class="ident">Node::Symlink</span>(<span class="kw-2">ref</span> <span class="ident">link</span>) =&gt; <span class="ident">link</span>.<span class="ident">mode</span>,
+    <span class="kw">pub fn </span>mode(<span class="kw-2">&amp;</span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;u32&gt; {
+        <span class="self">self</span>.get(path).map(|node| <span class="kw">match </span>node {
+            Node::File(<span class="kw-2">ref </span>file) =&gt; file.mode,
+            Node::Dir(<span class="kw-2">ref </span>dir) =&gt; dir.mode,
+            Node::Symlink(<span class="kw-2">ref </span>link) =&gt; link.mode,
         })
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_mode</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">mode</span>: <span class="ident">u32</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">get_mut</span>(<span class="ident">path</span>).<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">node</span> {
-            <span class="ident">Node::File</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">file</span>) =&gt; <span class="ident">file</span>.<span class="ident">mode</span> <span class="op">=</span> <span class="ident">mode</span>,
-            <span class="ident">Node::Dir</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">dir</span>) =&gt; <span class="ident">dir</span>.<span class="ident">mode</span> <span class="op">=</span> <span class="ident">mode</span>,
-            <span class="ident">Node::Symlink</span>(<span class="kw-2">ref</span> <span class="kw-2">mut</span> <span class="ident">link</span>) =&gt; <span class="ident">link</span>.<span class="ident">mode</span> <span class="op">=</span> <span class="ident">mode</span>,
+    <span class="kw">pub fn </span>set_mode(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path, mode: u32) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="self">self</span>.get_mut(path).map(|node| <span class="kw">match </span>node {
+            Node::File(<span class="kw-2">ref mut </span>file) =&gt; file.mode = mode,
+            Node::Dir(<span class="kw-2">ref mut </span>dir) =&gt; dir.mode = mode,
+            Node::Symlink(<span class="kw-2">ref mut </span>link) =&gt; link.mode = mode,
         })
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">len</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="ident">u64</span> {
-        <span class="self">self</span>.<span class="ident">get</span>(<span class="ident">path</span>)
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">node</span> {
-                <span class="ident">Node::File</span>(<span class="kw-2">ref</span> <span class="ident">file</span>) =&gt; <span class="ident">file</span>.<span class="ident">contents</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">u64</span>,
-                <span class="ident">Node::Dir</span>(<span class="kw">_</span>) =&gt; <span class="number">4096</span>,
-                <span class="ident">Node::Symlink</span>(<span class="kw">_</span>) =&gt; <span class="number">34</span>, <span class="comment">// This is what it actually is on macOS</span>
-            })
-            .<span class="ident">unwrap_or</span>(<span class="number">0</span>)
+    <span class="kw">pub fn </span>len(<span class="kw-2">&amp;</span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; u64 {
+        <span class="self">self</span>.get(path)
+            .map(|node| <span class="kw">match </span>node {
+                Node::File(<span class="kw-2">ref </span>file) =&gt; file.contents.len() <span class="kw">as </span>u64,
+                Node::Dir(<span class="kw">_</span>) =&gt; <span class="number">4096</span>,
+                Node::Symlink(<span class="kw">_</span>) =&gt; <span class="number">34</span>, <span class="comment">// This is what it actually is on macOS
+            </span>})
+            .unwrap_or(<span class="number">0</span>)
     }
 
-    <span class="kw">fn</span> <span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Node</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">files</span>
-            .<span class="ident">get</span>(<span class="ident">path</span>)
-            .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">create_error</span>(<span class="ident">ErrorKind::NotFound</span>))
+    <span class="kw">fn </span>get(<span class="kw-2">&amp;</span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span>Node&gt; {
+        <span class="self">self</span>.files
+            .get(path)
+            .ok_or_else(|| create_error(ErrorKind::NotFound))
     }
 
-    <span class="kw">fn</span> <span class="ident">get_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> <span class="ident">Node</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">files</span>
-            .<span class="ident">get_mut</span>(<span class="ident">path</span>)
-            .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">create_error</span>(<span class="ident">ErrorKind::NotFound</span>))
+    <span class="kw">fn </span>get_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;mut </span>Node&gt; {
+        <span class="self">self</span>.files
+            .get_mut(path)
+            .ok_or_else(|| create_error(ErrorKind::NotFound))
     }
 
-    <span class="kw">fn</span> <span class="ident">get_dir</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">Dir</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">get</span>(<span class="ident">path</span>).<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">node</span> {
-            <span class="ident">Node::Dir</span>(<span class="kw-2">ref</span> <span class="ident">dir</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">dir</span>),
-            <span class="ident">Node::File</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::NotADirectory</span>)),
-            <span class="ident">Node::Symlink</span>(<span class="kw">_</span>) =&gt; <span class="kw">match</span> <span class="self">self</span>.<span class="ident">recurse_symlink</span>(<span class="ident">path</span>) {
-                <span class="prelude-val">Ok</span>((<span class="ident">Node::Dir</span>(<span class="ident">dir</span>), <span class="kw">_</span>)) =&gt; <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">dir</span>),
-                <span class="prelude-val">Ok</span>((<span class="ident">Node::File</span>(<span class="kw">_</span>), <span class="kw">_</span>)) <span class="op">|</span> <span class="prelude-val">Ok</span>((<span class="ident">Node::Symlink</span>(<span class="kw">_</span>), <span class="kw">_</span>)) =&gt; {
-                    <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::NotADirectory</span>))
+    <span class="kw">fn </span>get_dir(<span class="kw-2">&amp;</span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span>Dir&gt; {
+        <span class="self">self</span>.get(path).and_then(|node| <span class="kw">match </span>node {
+            Node::Dir(<span class="kw-2">ref </span>dir) =&gt; <span class="prelude-val">Ok</span>(dir),
+            Node::File(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::NotADirectory)),
+            Node::Symlink(<span class="kw">_</span>) =&gt; <span class="kw">match </span><span class="self">self</span>.recurse_symlink(path) {
+                <span class="prelude-val">Ok</span>((Node::Dir(dir), <span class="kw">_</span>)) =&gt; <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>dir),
+                <span class="prelude-val">Ok</span>((Node::File(<span class="kw">_</span>), <span class="kw">_</span>)) | <span class="prelude-val">Ok</span>((Node::Symlink(<span class="kw">_</span>), <span class="kw">_</span>)) =&gt; {
+                    <span class="prelude-val">Err</span>(create_error(ErrorKind::NotADirectory))
                 }
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+                <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Err</span>(e),
             },
         })
     }
 
-    <span class="kw">fn</span> <span class="ident">get_dir_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> <span class="ident">Dir</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">to_path_buf</span>();
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>)<span class="question-mark">?</span> {
-            <span class="ident">Node::Dir</span>(<span class="ident">dir</span>) <span class="kw">if</span> <span class="ident">dir</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o222</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> =&gt; (), <span class="comment">// still get the original path</span>
-            <span class="ident">Node::Dir</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::PermissionDenied</span>)),
-            <span class="ident">Node::File</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::NotADirectory</span>)),
-            <span class="ident">Node::Symlink</span>(<span class="kw">_</span>) =&gt; <span class="kw">match</span> <span class="self">self</span>.<span class="ident">recurse_symlink</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>) {
-                <span class="prelude-val">Ok</span>((<span class="ident">Node::Dir</span>(<span class="kw">_</span>), <span class="ident">new_path</span>)) =&gt; <span class="ident">path</span> <span class="op">=</span> <span class="ident">new_path</span>,
-                <span class="prelude-val">Ok</span>((<span class="ident">Node::File</span>(<span class="kw">_</span>), <span class="kw">_</span>)) <span class="op">|</span> <span class="prelude-val">Ok</span>((<span class="ident">Node::Symlink</span>(<span class="kw">_</span>), <span class="kw">_</span>)) =&gt; {
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::NotADirectory</span>))
+    <span class="kw">fn </span>get_dir_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;mut </span>Dir&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>path = path.to_path_buf();
+        <span class="kw">match </span><span class="self">self</span>.get(<span class="kw-2">&amp;</span>path)<span class="question-mark">? </span>{
+            Node::Dir(dir) <span class="kw">if </span>dir.mode &amp; <span class="number">0o222 </span>!= <span class="number">0 </span>=&gt; (), <span class="comment">// still get the original path
+            </span>Node::Dir(<span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::PermissionDenied)),
+            Node::File(<span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::NotADirectory)),
+            Node::Symlink(<span class="kw">_</span>) =&gt; <span class="kw">match </span><span class="self">self</span>.recurse_symlink(<span class="kw-2">&amp;</span>path) {
+                <span class="prelude-val">Ok</span>((Node::Dir(<span class="kw">_</span>), new_path)) =&gt; path = new_path,
+                <span class="prelude-val">Ok</span>((Node::File(<span class="kw">_</span>), <span class="kw">_</span>)) | <span class="prelude-val">Ok</span>((Node::Symlink(<span class="kw">_</span>), <span class="kw">_</span>)) =&gt; {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::NotADirectory))
                 }
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
-            },
-        };
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">Node::Dir</span>(<span class="ident">dir</span>)) <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">dir</span>)
-        } <span class="kw">else</span> {
-            <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::Other</span>))
-        }
-    }
-
-    <span class="kw">fn</span> <span class="ident">get_file</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;</span><span class="ident">File</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">get</span>(<span class="ident">path</span>).<span class="ident">and_then</span>(<span class="op">|</span><span class="ident">node</span><span class="op">|</span> <span class="kw">match</span> <span class="ident">node</span> {
-            <span class="ident">Node::File</span>(<span class="kw-2">ref</span> <span class="ident">file</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">file</span>),
-            <span class="ident">Node::Dir</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::IsADirectory</span>)),
-            <span class="ident">Node::Symlink</span>(<span class="kw">_</span>) =&gt; <span class="kw">match</span> <span class="self">self</span>.<span class="ident">recurse_symlink</span>(<span class="ident">path</span>) {
-                <span class="prelude-val">Ok</span>((<span class="ident">Node::File</span>(<span class="ident">file</span>), <span class="kw">_</span>)) =&gt; <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span><span class="ident">file</span>),
-                <span class="prelude-val">Ok</span>((<span class="ident">Node::Dir</span>(<span class="kw">_</span>), <span class="kw">_</span>)) <span class="op">|</span> <span class="prelude-val">Ok</span>((<span class="ident">Node::Symlink</span>(<span class="kw">_</span>), <span class="kw">_</span>)) =&gt; {
-                    <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::IsADirectory</span>))
-                }
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">e</span>),
-            },
-        })
-    }
-
-    <span class="kw">fn</span> <span class="ident">get_file_mut</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="kw-2">&amp;mut</span> <span class="ident">File</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">path</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">to_path_buf</span>();
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>)<span class="question-mark">?</span> {
-            <span class="ident">Node::File</span>(<span class="ident">file</span>) <span class="kw">if</span> <span class="ident">file</span>.<span class="ident">mode</span> <span class="op">&amp;</span> <span class="number">0o222</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> =&gt; (), <span class="comment">// still get the original path</span>
-            <span class="ident">Node::File</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::PermissionDenied</span>)),
-            <span class="ident">Node::Dir</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::IsADirectory</span>)),
-            <span class="ident">Node::Symlink</span>(<span class="kw">_</span>) =&gt; <span class="kw">match</span> <span class="self">self</span>.<span class="ident">recurse_symlink</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>) {
-                <span class="prelude-val">Ok</span>((<span class="ident">Node::File</span>(<span class="kw">_</span>), <span class="ident">new_path</span>)) =&gt; <span class="ident">path</span> <span class="op">=</span> <span class="ident">new_path</span>,
-                <span class="prelude-val">Ok</span>((<span class="ident">Node::Dir</span>(<span class="kw">_</span>), <span class="kw">_</span>)) <span class="op">|</span> <span class="prelude-val">Ok</span>((<span class="ident">Node::Symlink</span>(<span class="kw">_</span>), <span class="kw">_</span>)) =&gt; {
-                    <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::IsADirectory</span>))
-                }
-                <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+                <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(e),
             },
         };
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">get_mut</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>) {
-            <span class="prelude-val">Ok</span>(<span class="ident">Node::File</span>(<span class="ident">file</span>)) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">file</span>),
-            <span class="prelude-val">Ok</span>(<span class="ident">Node::Dir</span>(<span class="kw">_</span>)) =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::IsADirectory</span>)),
-            <span class="prelude-val">Ok</span>(<span class="ident">Node::Symlink</span>(<span class="kw">_</span>)) =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::Other</span>)),
-            <span class="prelude-val">Err</span>(<span class="ident">e</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">e</span>),
+        <span class="kw">if let </span><span class="prelude-val">Ok</span>(Node::Dir(dir)) = <span class="self">self</span>.get_mut(<span class="kw-2">&amp;</span>path) {
+            <span class="prelude-val">Ok</span>(dir)
+        } <span class="kw">else </span>{
+            <span class="prelude-val">Err</span>(create_error(ErrorKind::Other))
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">insert</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="ident">PathBuf</span>, <span class="ident">file</span>: <span class="ident">Node</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">resolve_path</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>).<span class="ident">is_some</span>() {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::AlreadyExists</span>));
-        }
-        <span class="kw">let</span> <span class="ident">parent</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">path</span>
-            .<span class="ident">parent</span>()
-            .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">create_error</span>(<span class="ident">ErrorKind::NotADirectory</span>))<span class="question-mark">?</span>;
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="ident">parent</span>) {
-            <span class="prelude-val">Some</span>(<span class="ident">Node::Dir</span>(<span class="kw">_</span>)) =&gt; <span class="self">self</span>.<span class="ident">get_dir_mut</span>(<span class="ident">parent</span>)<span class="question-mark">?</span>,
-            <span class="prelude-val">None</span> <span class="op">|</span> <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::NotADirectory</span>)),
+    <span class="kw">fn </span>get_file(<span class="kw-2">&amp;</span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;</span>File&gt; {
+        <span class="self">self</span>.get(path).and_then(|node| <span class="kw">match </span>node {
+            Node::File(<span class="kw-2">ref </span>file) =&gt; <span class="prelude-val">Ok</span>(file),
+            Node::Dir(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::IsADirectory)),
+            Node::Symlink(<span class="kw">_</span>) =&gt; <span class="kw">match </span><span class="self">self</span>.recurse_symlink(path) {
+                <span class="prelude-val">Ok</span>((Node::File(file), <span class="kw">_</span>)) =&gt; <span class="prelude-val">Ok</span>(<span class="kw-2">&amp;</span>file),
+                <span class="prelude-val">Ok</span>((Node::Dir(<span class="kw">_</span>), <span class="kw">_</span>)) | <span class="prelude-val">Ok</span>((Node::Symlink(<span class="kw">_</span>), <span class="kw">_</span>)) =&gt; {
+                    <span class="prelude-val">Err</span>(create_error(ErrorKind::IsADirectory))
+                }
+                <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Err</span>(e),
+            },
+        })
+    }
+
+    <span class="kw">fn </span>get_file_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="kw-2">&amp;mut </span>File&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>path = path.to_path_buf();
+        <span class="kw">match </span><span class="self">self</span>.get(<span class="kw-2">&amp;</span>path)<span class="question-mark">? </span>{
+            Node::File(file) <span class="kw">if </span>file.mode &amp; <span class="number">0o222 </span>!= <span class="number">0 </span>=&gt; (), <span class="comment">// still get the original path
+            </span>Node::File(<span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::PermissionDenied)),
+            Node::Dir(<span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::IsADirectory)),
+            Node::Symlink(<span class="kw">_</span>) =&gt; <span class="kw">match </span><span class="self">self</span>.recurse_symlink(<span class="kw-2">&amp;</span>path) {
+                <span class="prelude-val">Ok</span>((Node::File(<span class="kw">_</span>), new_path)) =&gt; path = new_path,
+                <span class="prelude-val">Ok</span>((Node::Dir(<span class="kw">_</span>), <span class="kw">_</span>)) | <span class="prelude-val">Ok</span>((Node::Symlink(<span class="kw">_</span>), <span class="kw">_</span>)) =&gt; {
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::IsADirectory))
+                }
+                <span class="prelude-val">Err</span>(e) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(e),
+            },
         };
-        <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">insert</span>(<span class="ident">path</span>, <span class="ident">file</span>);
+        <span class="kw">match </span><span class="self">self</span>.get_mut(<span class="kw-2">&amp;</span>path) {
+            <span class="prelude-val">Ok</span>(Node::File(file)) =&gt; <span class="prelude-val">Ok</span>(file),
+            <span class="prelude-val">Ok</span>(Node::Dir(<span class="kw">_</span>)) =&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::IsADirectory)),
+            <span class="prelude-val">Ok</span>(Node::Symlink(<span class="kw">_</span>)) =&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::Other)),
+            <span class="prelude-val">Err</span>(e) =&gt; <span class="prelude-val">Err</span>(e),
+        }
+    }
+
+    <span class="kw">fn </span>insert(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: PathBuf, file: Node) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">let </span>path = <span class="self">self</span>.resolve_path(<span class="kw-2">&amp;</span>path, <span class="bool-val">false</span>)<span class="question-mark">?</span>;
+        <span class="kw">if </span><span class="self">self</span>.files.get(<span class="kw-2">&amp;</span>path).is_some() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::AlreadyExists));
+        }
+        <span class="kw">let </span>parent: <span class="kw-2">&amp;</span>Path = <span class="kw-2">&amp;</span>path
+            .parent()
+            .ok_or_else(|| create_error(ErrorKind::NotADirectory))<span class="question-mark">?</span>;
+        <span class="kw">match </span><span class="self">self</span>.files.get(parent) {
+            <span class="prelude-val">Some</span>(Node::Dir(<span class="kw">_</span>)) =&gt; <span class="self">self</span>.get_dir_mut(parent)<span class="question-mark">?</span>,
+            <span class="prelude-val">None </span>| <span class="prelude-val">Some</span>(<span class="kw">_</span>) =&gt; <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::NotADirectory)),
+        };
+        <span class="self">self</span>.files.insert(path, file);
 
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">fn</span> <span class="ident">remove</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">Node</span><span class="op">&gt;</span> {
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">remove</span>(<span class="ident">path</span>) {
-            <span class="prelude-val">Some</span>(<span class="ident">f</span>) =&gt; <span class="prelude-val">Ok</span>(<span class="ident">f</span>),
-            <span class="prelude-val">None</span> =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::NotFound</span>)),
+    <span class="kw">fn </span>remove(<span class="kw-2">&amp;mut </span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;Node&gt; {
+        <span class="kw">match </span><span class="self">self</span>.files.remove(path) {
+            <span class="prelude-val">Some</span>(f) =&gt; <span class="prelude-val">Ok</span>(f),
+            <span class="prelude-val">None </span>=&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::NotFound)),
         }
     }
 
-    <span class="kw">fn</span> <span class="ident">descendants</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">PathBuf</span>, <span class="ident">u32</span>)<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">pathbuf</span> <span class="op">=</span> <span class="ident">path</span>.<span class="ident">to_path_buf</span>();
-        <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>(<span class="ident">Node::Symlink</span>(<span class="kw">_</span>)) <span class="op">=</span> <span class="self">self</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>) {
-            <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Ok</span>((<span class="kw">_</span>, <span class="ident">new_path</span>)) <span class="op">=</span> <span class="self">self</span>.<span class="ident">recurse_symlink</span>(<span class="kw-2">&amp;</span><span class="ident">path</span>) {
-                <span class="ident">pathbuf</span> <span class="op">=</span> <span class="ident">new_path</span>;
+    <span class="kw">fn </span>descendants(<span class="kw-2">&amp;</span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; Vec&lt;(PathBuf, u32)&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>pathbuf = path.to_path_buf();
+        <span class="kw">if let </span><span class="prelude-val">Ok</span>(Node::Symlink(<span class="kw">_</span>)) = <span class="self">self</span>.get(<span class="kw-2">&amp;</span>path) {
+            <span class="kw">if let </span><span class="prelude-val">Ok</span>((<span class="kw">_</span>, new_path)) = <span class="self">self</span>.recurse_symlink(<span class="kw-2">&amp;</span>path) {
+                pathbuf = new_path;
             }
         }
-        <span class="kw">let</span> <span class="ident">path</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">pathbuf</span>;
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">descendants</span>: <span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">PathBuf</span>, <span class="ident">u32</span>)<span class="op">&gt;</span> <span class="op">=</span> <span class="self">self</span>
-            .<span class="ident">files</span>
-            .<span class="ident">iter</span>()
-            .<span class="ident">filter</span>(<span class="op">|</span>(<span class="ident">p</span>, <span class="kw">_</span>)<span class="op">|</span> <span class="ident">p</span>.<span class="ident">starts_with</span>(<span class="ident">path</span>) <span class="op">&amp;&amp;</span> <span class="kw-2">*</span><span class="ident">p</span> <span class="op">!</span><span class="op">=</span> <span class="ident">path</span>)
-            .<span class="ident">map</span>(<span class="op">|</span>(<span class="ident">p</span>, <span class="ident">n</span>)<span class="op">|</span> {
+        <span class="kw">let </span>path = <span class="kw-2">&amp;</span>pathbuf;
+        <span class="kw">let </span><span class="kw-2">mut </span>descendants: Vec&lt;(PathBuf, u32)&gt; = <span class="self">self
+            </span>.files
+            .iter()
+            .filter(|(p, <span class="kw">_</span>)| p.starts_with(path) &amp;&amp; <span class="kw-2">*</span>p != path)
+            .map(|(p, n)| {
                 (
-                    <span class="ident">p</span>.<span class="ident">to_path_buf</span>(),
-                    <span class="kw">match</span> <span class="ident">n</span> {
-                        <span class="ident">Node::File</span>(<span class="kw-2">ref</span> <span class="ident">file</span>) =&gt; <span class="ident">file</span>.<span class="ident">mode</span>,
-                        <span class="ident">Node::Dir</span>(<span class="kw-2">ref</span> <span class="ident">dir</span>) =&gt; <span class="ident">dir</span>.<span class="ident">mode</span>,
-                        <span class="ident">Node::Symlink</span>(<span class="kw-2">ref</span> <span class="ident">link</span>) =&gt; <span class="ident">link</span>.<span class="ident">mode</span>,
+                    p.to_path_buf(),
+                    <span class="kw">match </span>n {
+                        Node::File(<span class="kw-2">ref </span>file) =&gt; file.mode,
+                        Node::Dir(<span class="kw-2">ref </span>dir) =&gt; dir.mode,
+                        Node::Symlink(<span class="kw-2">ref </span>link) =&gt; link.mode,
                     },
                 )
             })
-            .<span class="ident">collect</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">found_symlink</span> <span class="op">=</span> <span class="bool-val">true</span>;
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">list</span> <span class="op">=</span> <span class="ident">descendants</span>.<span class="ident">clone</span>();
-        <span class="kw">while</span> <span class="ident">found_symlink</span> {
-            <span class="ident">found_symlink</span> <span class="op">=</span> <span class="bool-val">false</span>;
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">new_list</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-            <span class="kw">for</span> (<span class="ident">p</span>, <span class="kw">_</span>) <span class="kw">in</span> <span class="ident">list</span> {
-                <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">Node::Symlink</span>(<span class="kw">_</span>)) <span class="op">=</span> <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">get</span>(<span class="kw-2">&amp;</span><span class="ident">p</span>) {
-                    <span class="ident">found_symlink</span> <span class="op">=</span> <span class="bool-val">true</span>;
-                    <span class="ident">new_list</span>.<span class="ident">extend</span>(<span class="self">self</span>.<span class="ident">descendants</span>(<span class="kw-2">&amp;</span><span class="ident">p</span>));
+            .collect();
+        <span class="kw">let </span><span class="kw-2">mut </span>found_symlink = <span class="bool-val">true</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>list = descendants.clone();
+        <span class="kw">while </span>found_symlink {
+            found_symlink = <span class="bool-val">false</span>;
+            <span class="kw">let </span><span class="kw-2">mut </span>new_list = Vec::new();
+            <span class="kw">for </span>(p, <span class="kw">_</span>) <span class="kw">in </span>list {
+                <span class="kw">if let </span><span class="prelude-val">Some</span>(Node::Symlink(<span class="kw">_</span>)) = <span class="self">self</span>.files.get(<span class="kw-2">&amp;</span>p) {
+                    found_symlink = <span class="bool-val">true</span>;
+                    new_list.extend(<span class="self">self</span>.descendants(<span class="kw-2">&amp;</span>p));
                 }
             }
-            <span class="ident">descendants</span>.<span class="ident">extend</span>(<span class="ident">new_list</span>.<span class="ident">iter</span>().<span class="ident">cloned</span>());
-            <span class="ident">list</span> <span class="op">=</span> <span class="ident">new_list</span>;
+            descendants.extend(new_list.iter().cloned());
+            list = new_list;
         }
-        <span class="ident">descendants</span>
+        descendants
     }
 
-    <span class="kw">fn</span> <span class="ident">children</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">path</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">PathBuf</span><span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">files</span>
-            .<span class="ident">keys</span>()
-            .<span class="ident">filter</span>(<span class="op">|</span><span class="ident">p</span><span class="op">|</span> <span class="ident">p</span>.<span class="ident">parent</span>().<span class="ident">map</span>(<span class="op">|</span><span class="ident">parent</span><span class="op">|</span> <span class="ident">parent</span> <span class="op">==</span> <span class="ident">path</span>).<span class="ident">unwrap_or</span>(<span class="bool-val">false</span>))
-            .<span class="ident">map</span>(<span class="op">|</span><span class="ident">p</span><span class="op">|</span> <span class="ident">p</span>.<span class="ident">to_path_buf</span>())
-            .<span class="ident">collect</span>()
+    <span class="kw">fn </span>children(<span class="kw-2">&amp;</span><span class="self">self</span>, path: <span class="kw-2">&amp;</span>Path) -&gt; Vec&lt;PathBuf&gt; {
+        <span class="self">self</span>.files
+            .keys()
+            .filter(|p| p.parent().map(|parent| parent == path).unwrap_or(<span class="bool-val">false</span>))
+            .map(|p| p.to_path_buf())
+            .collect()
     }
 
-    <span class="kw">fn</span> <span class="ident">rename_path</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">from</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">to</span>: <span class="ident">PathBuf</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">file</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">remove</span>(<span class="ident">from</span>)<span class="question-mark">?</span>;
-        <span class="self">self</span>.<span class="ident">insert</span>(<span class="ident">to</span>, <span class="ident">file</span>)
+    <span class="kw">fn </span>rename_path(<span class="kw-2">&amp;mut </span><span class="self">self</span>, from: <span class="kw-2">&amp;</span>Path, to: PathBuf) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">let </span>file = <span class="self">self</span>.remove(from)<span class="question-mark">?</span>;
+        <span class="self">self</span>.insert(to, file)
     }
 
-    <span class="kw">fn</span> <span class="ident">move_dir</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">from</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">to</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="self">self</span>.<span class="ident">rename_path</span>(<span class="ident">from</span>, <span class="ident">to</span>.<span class="ident">to_path_buf</span>())<span class="question-mark">?</span>;
+    <span class="kw">fn </span>move_dir(<span class="kw-2">&amp;mut </span><span class="self">self</span>, from: <span class="kw-2">&amp;</span>Path, to: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="self">self</span>.rename_path(from, to.to_path_buf())<span class="question-mark">?</span>;
 
-        <span class="kw">for</span> <span class="ident">child</span> <span class="kw">in</span> <span class="self">self</span>.<span class="ident">children</span>(<span class="ident">from</span>) {
-            <span class="kw">let</span> <span class="ident">stem</span> <span class="op">=</span> <span class="ident">child</span>.<span class="ident">strip_prefix</span>(<span class="ident">from</span>).<span class="ident">unwrap_or</span>(<span class="kw-2">&amp;</span><span class="ident">child</span>);
-            <span class="kw">let</span> <span class="ident">new_path</span> <span class="op">=</span> <span class="ident">to</span>.<span class="ident">join</span>(<span class="ident">stem</span>);
+        <span class="kw">for </span>child <span class="kw">in </span><span class="self">self</span>.children(from) {
+            <span class="kw">let </span>stem = child.strip_prefix(from).unwrap_or(<span class="kw-2">&amp;</span>child);
+            <span class="kw">let </span>new_path = to.join(stem);
 
-            <span class="self">self</span>.<span class="ident">rename</span>(<span class="kw-2">&amp;</span><span class="ident">child</span>, <span class="kw-2">&amp;</span><span class="ident">new_path</span>)<span class="question-mark">?</span>;
+            <span class="self">self</span>.rename(<span class="kw-2">&amp;</span>child, <span class="kw-2">&amp;</span>new_path)<span class="question-mark">?</span>;
         }
 
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">symlink</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">src</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>, <span class="ident">dst</span>: <span class="kw-2">&amp;</span><span class="ident">Path</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>()<span class="op">&gt;</span> {
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">get</span>(<span class="ident">dst</span>).<span class="ident">is_ok</span>() {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::AlreadyExists</span>));
+    <span class="kw">pub fn </span>symlink(<span class="kw-2">&amp;mut </span><span class="self">self</span>, src: <span class="kw-2">&amp;</span>Path, dst: <span class="kw-2">&amp;</span>Path) -&gt; <span class="prelude-ty">Result</span>&lt;()&gt; {
+        <span class="kw">if </span><span class="self">self</span>.get(dst).is_ok() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::AlreadyExists));
         }
-        <span class="kw">let</span> <span class="ident">parent</span> <span class="op">=</span> <span class="kw">if</span> <span class="kw">let</span> <span class="prelude-val">Some</span>(<span class="ident">parent</span>) <span class="op">=</span> <span class="ident">dst</span>.<span class="ident">parent</span>() {
-            <span class="ident">parent</span>
-        } <span class="kw">else</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::NotFound</span>));
+        <span class="kw">let </span>parent = <span class="kw">if let </span><span class="prelude-val">Some</span>(parent) = dst.parent() {
+            parent
+        } <span class="kw">else </span>{
+            <span class="kw">return </span><span class="prelude-val">Err</span>(create_error(ErrorKind::NotFound));
         };
-        <span class="kw">match</span> <span class="self">self</span>.<span class="ident">readonly</span>(<span class="ident">parent</span>) {
-            <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::PermissionDenied</span>)),
+        <span class="kw">match </span><span class="self">self</span>.readonly(parent) {
+            <span class="prelude-val">Ok</span>(<span class="bool-val">true</span>) =&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::PermissionDenied)),
             <span class="prelude-val">Ok</span>(<span class="bool-val">false</span>) =&gt; {
-                <span class="self">self</span>.<span class="ident">files</span>.<span class="ident">insert</span>(
-                    <span class="ident">PathBuf::from</span>(<span class="ident">dst</span>),
-                    <span class="ident">Node::Symlink</span>(<span class="ident">Symlink::new</span>(<span class="ident">PathBuf::from</span>(<span class="ident">src</span>))),
+                <span class="self">self</span>.files.insert(
+                    PathBuf::from(dst),
+                    Node::Symlink(Symlink::new(PathBuf::from(src))),
                 );
                 <span class="prelude-val">Ok</span>(())
             }
-            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(<span class="ident">create_error</span>(<span class="ident">ErrorKind::NotFound</span>)),
+            <span class="prelude-val">Err</span>(<span class="kw">_</span>) =&gt; <span class="prelude-val">Err</span>(create_error(ErrorKind::NotFound)),
         }
     }
 }
 
-<span class="kw">fn</span> <span class="ident">create_error</span>(<span class="ident">kind</span>: <span class="ident">ErrorKind</span>) -&gt; <span class="ident">Error</span> {
-    <span class="comment">// Based on private std::io::ErrorKind::as_str()</span>
-    <span class="kw">let</span> <span class="ident">description</span> <span class="op">=</span> <span class="kw">match</span> <span class="ident">kind</span> {
-        <span class="ident">ErrorKind::NotFound</span> =&gt; <span class="string">&quot;entity not found&quot;</span>,
-        <span class="ident">ErrorKind::PermissionDenied</span> =&gt; <span class="string">&quot;permission denied&quot;</span>,
-        <span class="ident">ErrorKind::ConnectionRefused</span> =&gt; <span class="string">&quot;connection refused&quot;</span>,
-        <span class="ident">ErrorKind::ConnectionReset</span> =&gt; <span class="string">&quot;connection reset&quot;</span>,
-        <span class="ident">ErrorKind::ConnectionAborted</span> =&gt; <span class="string">&quot;connection aborted&quot;</span>,
-        <span class="ident">ErrorKind::NotConnected</span> =&gt; <span class="string">&quot;not connected&quot;</span>,
-        <span class="ident">ErrorKind::AddrInUse</span> =&gt; <span class="string">&quot;address in use&quot;</span>,
-        <span class="ident">ErrorKind::AddrNotAvailable</span> =&gt; <span class="string">&quot;address not available&quot;</span>,
-        <span class="ident">ErrorKind::BrokenPipe</span> =&gt; <span class="string">&quot;broken pipe&quot;</span>,
-        <span class="ident">ErrorKind::AlreadyExists</span> =&gt; <span class="string">&quot;entity already exists&quot;</span>,
-        <span class="ident">ErrorKind::WouldBlock</span> =&gt; <span class="string">&quot;operation would block&quot;</span>,
-        <span class="ident">ErrorKind::InvalidInput</span> =&gt; <span class="string">&quot;invalid input parameter&quot;</span>,
-        <span class="ident">ErrorKind::InvalidData</span> =&gt; <span class="string">&quot;invalid data&quot;</span>,
-        <span class="ident">ErrorKind::TimedOut</span> =&gt; <span class="string">&quot;timed out&quot;</span>,
-        <span class="ident">ErrorKind::WriteZero</span> =&gt; <span class="string">&quot;write zero&quot;</span>,
-        <span class="ident">ErrorKind::Interrupted</span> =&gt; <span class="string">&quot;operation interrupted&quot;</span>,
-        <span class="ident">ErrorKind::Other</span> =&gt; <span class="string">&quot;other os error&quot;</span>,
-        <span class="ident">ErrorKind::UnexpectedEof</span> =&gt; <span class="string">&quot;unexpected end of file&quot;</span>,
-        <span class="kw">_</span> =&gt; <span class="string">&quot;other&quot;</span>,
+<span class="kw">fn </span>create_error(kind: ErrorKind) -&gt; Error {
+    <span class="comment">// Based on private std::io::ErrorKind::as_str()
+    </span><span class="kw">let </span>description = <span class="kw">match </span>kind {
+        ErrorKind::NotFound =&gt; <span class="string">&quot;entity not found&quot;</span>,
+        ErrorKind::PermissionDenied =&gt; <span class="string">&quot;permission denied&quot;</span>,
+        ErrorKind::ConnectionRefused =&gt; <span class="string">&quot;connection refused&quot;</span>,
+        ErrorKind::ConnectionReset =&gt; <span class="string">&quot;connection reset&quot;</span>,
+        ErrorKind::ConnectionAborted =&gt; <span class="string">&quot;connection aborted&quot;</span>,
+        ErrorKind::NotConnected =&gt; <span class="string">&quot;not connected&quot;</span>,
+        ErrorKind::AddrInUse =&gt; <span class="string">&quot;address in use&quot;</span>,
+        ErrorKind::AddrNotAvailable =&gt; <span class="string">&quot;address not available&quot;</span>,
+        ErrorKind::BrokenPipe =&gt; <span class="string">&quot;broken pipe&quot;</span>,
+        ErrorKind::AlreadyExists =&gt; <span class="string">&quot;entity already exists&quot;</span>,
+        ErrorKind::WouldBlock =&gt; <span class="string">&quot;operation would block&quot;</span>,
+        ErrorKind::InvalidInput =&gt; <span class="string">&quot;invalid input parameter&quot;</span>,
+        ErrorKind::InvalidData =&gt; <span class="string">&quot;invalid data&quot;</span>,
+        ErrorKind::TimedOut =&gt; <span class="string">&quot;timed out&quot;</span>,
+        ErrorKind::WriteZero =&gt; <span class="string">&quot;write zero&quot;</span>,
+        ErrorKind::Interrupted =&gt; <span class="string">&quot;operation interrupted&quot;</span>,
+        ErrorKind::Other =&gt; <span class="string">&quot;other os error&quot;</span>,
+        ErrorKind::UnexpectedEof =&gt; <span class="string">&quot;unexpected end of file&quot;</span>,
+        <span class="kw">_ </span>=&gt; <span class="string">&quot;other&quot;</span>,
     };
 
-    <span class="ident">Error::new</span>(<span class="ident">kind</span>, <span class="ident">description</span>)
+    Error::new(kind, description)
 }
 </code></pre></div>
-</section><section id="search" class="content hidden"></section><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="filesystem" data-search-index-js="../../../search-index.js" data-search-js="../../../search.js"></div>
-    <script src="../../../main.js"></script><script src="../../../source-script.js"></script><script src="../../../source-files.js"></script>
-</body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../../" data-current-crate="filesystem" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.66.0-nightly (b8c35ca26 2022-10-15)" ></div></body></html>

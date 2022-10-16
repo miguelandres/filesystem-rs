@@ -1,3 +1,3 @@
-(function() {var implementors = {};
-implementors["filesystem"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/ops/drop/trait.Drop.html\" title=\"trait core::ops::drop::Drop\">Drop</a> for <a class=\"struct\" href=\"filesystem/struct.FakeTempDir.html\" title=\"struct filesystem::FakeTempDir\">FakeTempDir</a>","synthetic":false,"types":["filesystem::fake::tempdir::FakeTempDir"]}];
-if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
+(function() {var implementors = {
+"filesystem":[["impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/ops/drop/trait.Drop.html\" title=\"trait core::ops::drop::Drop\">Drop</a> for <a class=\"struct\" href=\"filesystem/struct.FakeTempDir.html\" title=\"struct filesystem::FakeTempDir\">FakeTempDir</a>"]]
+};if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
