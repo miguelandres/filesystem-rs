@@ -20,10 +20,39 @@ jobs:
         target:
           - name: x86_64-unknown-linux-gnu
             gh_env: ubuntu-latest
+          - name: aarch64-unknown-linux-gnu
+            gh_env: ubuntu-latest
+            linker: gcc-aarch64-linux-gnu
+          - name: armv7-unknown-linux-gnueabihf
+            gh_env: ubuntu-latest
+            linker: gcc-arm-linux-gnueabihf
           - name: aarch64-apple-darwin
-            gh_env: macos-11
+            gh_env: macos-12
           - name: x86_64-apple-darwin
-            gh_env: macos-11
+            gh_env: macos-12
+        include:
+          - target:
+              name: x86_64-unknown-linux-gnu
+            cross: false
+            run_tests: true
+          - target:
+              name: aarch64-unknown-linux-gnu
+            linker: gcc-aarch64-linux-gnu
+            cross: true
+            run_tests: false
+          - target:
+              name: armv7-unknown-linux-gnueabihf
+            linker: gcc-arm-linux-gnueabihf
+            cross: true
+            run_tests: false
+          - target:
+              name: aarch64-apple-darwin
+            cross: false
+            run_tests: false
+          - target:
+              name: x86_64-apple-darwin
+            cross: false
+            run_tests: true
 
     steps:
       - uses: actions/checkout@v2
@@ -33,11 +62,16 @@ jobs:
         run: |
           rustup set auto-self-update disable
           rustup toolchain install ${{ matrix.rust}}-${{ matrix.target.name }} --profile minimal
-
+      - name: Install Linker
+        if: matrix.cross
+        run: |
+          sudo apt update
+          sudo apt install ${{ matrix.linker }}
       - uses: Swatinem/rust-cache@v2
         with:
           shared-key: ${{ matrix.target.name }}--branch--${{ github.ref }}
       - name: Build
-        run: cargo build --verbose
+        run: cargo build
       - name: Run tests
-        run: cargo test --verbose
+        if: matrix.run_tests
+        run: cargo test
