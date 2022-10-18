@@ -1,10 +1,10 @@
 # miguelandres/filesystem-rs
 
-This has been forked from [iredelmeier/filesystem-rs]
-(<http://github.com/iredelmeier/filesystem-rs>). I needed some more functionality
-than the original package offered, namely symlinks, so I wrote it myself. I
-wrote a PR for Isobel to review but she hasn't got back to me, therefore I'll
-be treating this as an isolated fork.
+This has been forked from 
+[iredelmeier/filesystem-rs](<http://github.com/iredelmeier/filesystem-rs>).
+I needed some more functionalitythan the original package offered, namely
+symlinks, so I wrote it myself. I wrote a PR for Isobel to review but she
+hasn't got back to me, therefore I'll be treating this as an isolated fork.
 
 ## Real, fake, and mock implementations of file system operations
 
