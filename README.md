@@ -1,6 +1,6 @@
 # miguelandres/filesystem-rs
 
-This has been forked from 
+This has been forked from
 [iredelmeier/filesystem-rs](<http://github.com/iredelmeier/filesystem-rs>).
 I needed some more functionalitythan the original package offered, namely
 symlinks, so I wrote it myself. I wrote a PR for Isobel to review but she
