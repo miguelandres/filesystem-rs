@@ -27,9 +27,9 @@ jobs:
             gh_env: ubuntu-latest
             linker: gcc-arm-linux-gnueabihf
           - name: aarch64-apple-darwin
-            gh_env: macos-12
+            gh_env: macos-latest
           - name: x86_64-apple-darwin
-            gh_env: macos-12
+            gh_env: macos-latest
         include:
           - target:
               name: x86_64-unknown-linux-gnu
@@ -53,15 +53,19 @@ jobs:
               name: x86_64-apple-darwin
             cross: false
             run_tests: true
+    env:
+      RUST_BACKTRACE: full
+      RUSTV: ${{ matrix.rust }}
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       # When rustup is updated, it tries to replace its binary, which on Windows is somehow locked.
       # This can result in the CI failure, see: https://github.com/rust-lang/rustup/issues/3029
       - name: Setup rust
-        run: |
-          rustup set auto-self-update disable
-          rustup toolchain install ${{ matrix.rust}}-${{ matrix.target.name }} --profile minimal
+        uses: dtolnay/rust-toolchain@master
+        with:
+          toolchain: ${{ matrix.rust}}
+          target: ${{ matrix.target.name }}
       - name: Install Linker
         if: matrix.cross
         run: |
@@ -71,7 +75,8 @@ jobs:
         with:
           shared-key: ${{ matrix.target.name }}--branch--${{ github.ref }}
       - name: Build
-        run: cargo build
+        run: cargo build --target ${{ matrix.target.name }}
       - name: Run tests
+        # cannot run arm or aarch64 at all on github actions :(
         if: matrix.run_tests
-        run: cargo test
+        run: cargo test --target ${{ matrix.target.name }}
