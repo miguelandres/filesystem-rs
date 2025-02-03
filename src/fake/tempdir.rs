@@ -25,7 +25,7 @@ use std::sync::{Mutex, Weak};
 use rand;
 use rand::Rng;
 
-use rand::distributions::Alphanumeric;
+use rand::distr::Alphanumeric;
 use TempDir;
 
 use super::Registry;
@@ -40,7 +40,7 @@ pub struct FakeTempDir {
 
 impl FakeTempDir {
     pub fn new(registry: Weak<Mutex<Registry>>, base: &Path, prefix: &str) -> Self {
-        let mut rng = rand::thread_rng();
+        let mut rng = rand::rng();
         let suffix: String = (1..SUFFIX_LENGTH)
             .map(|_| rng.sample(Alphanumeric) as char)
             .collect();
